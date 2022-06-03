@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndisturbedLearning.API", "UndisturbedLearning.API.csproj", "{BE848E5C-3CC9-4DBF-ACEE-5D73A3595861}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Entities", "01. Entities", "{F6B1FA09-1C76-43BD-97D5-58168A236FC2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. DataAccess", "02. DataAccess", "{69DDB803-E585-4DF9-9D0E-F1945E0B99DD}"
@@ -20,16 +18,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndisturbedLearning.DataAcc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndisturbedLearning.Dto", "UndisturbedLearning.Dto\UndisturbedLearning.Dto.csproj", "{F0068191-682F-484B-A606-B347973F7511}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndisturbedLearning.API", "UndisturbedLearning.API\UndisturbedLearning.API.csproj", "{45C72C39-28A4-4270-948F-0543CD64FF9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BE848E5C-3CC9-4DBF-ACEE-5D73A3595861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE848E5C-3CC9-4DBF-ACEE-5D73A3595861}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE848E5C-3CC9-4DBF-ACEE-5D73A3595861}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE848E5C-3CC9-4DBF-ACEE-5D73A3595861}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A52CEFCE-D700-4E20-B89F-5399EE55D96F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A52CEFCE-D700-4E20-B89F-5399EE55D96F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A52CEFCE-D700-4E20-B89F-5399EE55D96F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -46,12 +42,16 @@ Global
 		{F0068191-682F-484B-A606-B347973F7511}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0068191-682F-484B-A606-B347973F7511}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0068191-682F-484B-A606-B347973F7511}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45C72C39-28A4-4270-948F-0543CD64FF9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45C72C39-28A4-4270-948F-0543CD64FF9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45C72C39-28A4-4270-948F-0543CD64FF9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45C72C39-28A4-4270-948F-0543CD64FF9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{BE848E5C-3CC9-4DBF-ACEE-5D73A3595861} = {EA6B3203-DF81-4668-A78E-E336DB4742AF}
 		{A52CEFCE-D700-4E20-B89F-5399EE55D96F} = {F6B1FA09-1C76-43BD-97D5-58168A236FC2}
 		{0710CCB3-6350-4E26-AFA8-FFAA76E453D7} = {B8348456-5799-4EA6-8374-FA23B05C1FDB}
 		{B0C4074C-FB9B-4DAA-A518-44E63E368530} = {69DDB803-E585-4DF9-9D0E-F1945E0B99DD}
 		{F0068191-682F-484B-A606-B347973F7511} = {CE7F97CD-F61C-429B-8C00-ECD1296FC347}
+		{45C72C39-28A4-4270-948F-0543CD64FF9E} = {EA6B3203-DF81-4668-A78E-E336DB4742AF}
 	EndGlobalSection
 EndGlobal

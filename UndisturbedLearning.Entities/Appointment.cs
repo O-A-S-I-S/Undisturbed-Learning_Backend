@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UndisturbedLearning.Entities;
 
-public class Appointment
+public class Appointment: EntityBase
 {
     [Required]
     public DateTime Start { get; set; }
@@ -20,11 +20,9 @@ public class Appointment
     [Range(0, 10)]
     public int Rating { get; set; }
     
-    [Required] 
     public int PsychopedagogistId { get; set; }
     public Psychopedagogist Psychopedagogist { get; set; }
     
-    [Required] 
     public int StudentId { get; set; }
-    public Psychopedagogist Student { get; set; }
+    public Student Student { get; set; }
 }

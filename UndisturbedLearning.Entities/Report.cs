@@ -14,7 +14,6 @@ public class Report: EntityBase
    [Required]
    public string Text { get; set; }
    
-   [Required] 
    public int AppointmentId { get; set; }
    public Appointment Appointment { get; set; }
 }

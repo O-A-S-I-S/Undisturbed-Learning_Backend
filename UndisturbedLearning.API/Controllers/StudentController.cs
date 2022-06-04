@@ -8,7 +8,7 @@ using UndisturbedLearning.Dto.Request;
 namespace UndisturbedLearning.API.Controllers;
 
 [ApiController]
-[Route("/api/[controller]")]
+[Route("api/[controller]")]
 public class StudentController: ControllerBase
 {
     private readonly UndisturbedLearningDbContext _context;
@@ -21,6 +21,10 @@ public class StudentController: ControllerBase
     [HttpGet]
     public async Task<ActionResult<BaseResponseGeneric<ICollection<Student>>>> Get()
     {
+        // if (_context.Database.CanConnect())
+        // {
+        //     
+        // }
         var response = new BaseResponseGeneric<ICollection<Student>>();
 
         try
@@ -35,6 +39,7 @@ public class StudentController: ControllerBase
             response.Errors.Add(ex.Message);
             return response;
         }
+        
     }
 
     [HttpPost]

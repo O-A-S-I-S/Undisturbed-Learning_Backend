@@ -24,7 +24,6 @@ public class Workshop: EntityBase
     [Required]
     public bool Reminder { get; set; }
     
-    [Required] 
     public int PsychopedagogistId { get; set; }
     public Psychopedagogist Psychopedagogist { get; set; }
 

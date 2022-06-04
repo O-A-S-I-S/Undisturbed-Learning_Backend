@@ -31,11 +31,9 @@ public class Psychopedagogist: EntityBase
    [Required]
    public bool IndividualAssistance { get; set; }
 
-   [Required]
    public int ProfessionId { get; set; }
    public Profession Profession { get; set; }
 
-   [Required]
    public int CampusId { get; set; }
    public Campus Campus { get; set; }
    

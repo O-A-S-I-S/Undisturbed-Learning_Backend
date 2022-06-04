@@ -32,11 +32,9 @@ public class Student: EntityBase
    public bool Undergraduate { get; set; }
 
 
-   [Required]
    public int CareerId { get; set; }
    public Career Career { get; set; }
 
-   [Required]
    public int CampusId { get; set; }
    public Campus Campus { get; set; }
 

@@ -38,7 +38,7 @@ public class Student: EntityBase
    public int CampusId { get; set; }
    public Campus Campus { get; set; }
 
-   public ICollection<Appointment> Appointments { get; set; }
+   //public ICollection<Appointment> Appointments { get; set; }
    
    public ICollection<Workshop> Workshops { get; set; }
 }

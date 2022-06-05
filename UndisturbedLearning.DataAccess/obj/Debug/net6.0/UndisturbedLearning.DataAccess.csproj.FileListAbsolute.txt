@@ -1,0 +1,17 @@
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\bin\Debug\net6.0\UndisturbedLearning.DataAccess.deps.json
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\bin\Debug\net6.0\UndisturbedLearning.DataAccess.runtimeconfig.json
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\bin\Debug\net6.0\UndisturbedLearning.DataAccess.dll
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\bin\Debug\net6.0\UndisturbedLearning.DataAccess.pdb
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\bin\Debug\net6.0\UndisturbedLearning.Entities.dll
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\bin\Debug\net6.0\UndisturbedLearning.Entities.pdb
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\obj\Debug\net6.0\UndisturbedLearning.DataAccess.csproj.AssemblyReference.cache
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\obj\Debug\net6.0\UndisturbedLearning.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\obj\Debug\net6.0\UndisturbedLearning.DataAccess.AssemblyInfoInputs.cache
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\obj\Debug\net6.0\UndisturbedLearning.DataAccess.AssemblyInfo.cs
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\obj\Debug\net6.0\UndisturbedLearning.DataAccess.csproj.CoreCompileInputs.cache
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\obj\Debug\net6.0\UndisturbedLearning.DataAccess.csproj.CopyComplete
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\obj\Debug\net6.0\UndisturbedLearning.DataAccess.dll
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\obj\Debug\net6.0\refint\UndisturbedLearning.DataAccess.dll
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\obj\Debug\net6.0\UndisturbedLearning.DataAccess.pdb
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\obj\Debug\net6.0\UndisturbedLearning.DataAccess.genruntimeconfig.cache
+D:\Universidad\Ciclo2022-1\Ingenieria de Software\ULB\UndisturbedLearning.DataAccess\obj\Debug\net6.0\ref\UndisturbedLearning.DataAccess.dll

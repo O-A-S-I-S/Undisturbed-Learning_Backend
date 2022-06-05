@@ -22,10 +22,10 @@ public class UndisturbedLearningDbContext : DbContext
     //     }
     // }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<StudentWorkshop>().HasKey(sc => new { sc.StudentId, sc.WorkshopId });
-    }
+    //protected override void OnModelCreating(ModelBuilder modelBuilder)
+    //{
+    //    modelBuilder.Entity<StudentWorkshop>().HasKey(sc => new { sc.StudentId, sc.WorkshopId });
+    //}
 
     public DbSet<Student> Students { get; set; }
     public DbSet<Psychopedagogist> Psychopedagogists { get; set; }

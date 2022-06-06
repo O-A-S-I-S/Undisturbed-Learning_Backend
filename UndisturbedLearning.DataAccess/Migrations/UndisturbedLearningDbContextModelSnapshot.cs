@@ -315,29 +315,6 @@ namespace UndisturbedLearning.DataAccess.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("UndisturbedLearning.Entities.StudentWorkshop", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WorkshopId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("WorkshopId");
-
-                    b.ToTable("StudentWorkshops");
-                });
-
             modelBuilder.Entity("UndisturbedLearning.Entities.Workshop", b =>
                 {
                     b.Property<int>("Id")
@@ -396,7 +373,7 @@ namespace UndisturbedLearning.DataAccess.Migrations
                     b.HasOne("UndisturbedLearning.Entities.Workshop", null)
                         .WithMany()
                         .HasForeignKey("WorkshopsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -466,25 +443,6 @@ namespace UndisturbedLearning.DataAccess.Migrations
                     b.Navigation("Campus");
 
                     b.Navigation("Career");
-                });
-
-            modelBuilder.Entity("UndisturbedLearning.Entities.StudentWorkshop", b =>
-                {
-                    b.HasOne("UndisturbedLearning.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("UndisturbedLearning.Entities.Workshop", "Workshop")
-                        .WithMany()
-                        .HasForeignKey("WorkshopId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Student");
-
-                    b.Navigation("Workshop");
                 });
 
             modelBuilder.Entity("UndisturbedLearning.Entities.Workshop", b =>

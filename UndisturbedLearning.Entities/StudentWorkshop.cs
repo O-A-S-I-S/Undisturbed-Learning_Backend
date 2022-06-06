@@ -1,6 +1,6 @@
-namespace UndisturbedLearning.Entities;
+﻿namespace UndisturbedLearning.Entities;
 
-public class StudentWorkshop:EntityBase
+public class StudentWorkshop
 {
     public int StudentId { get; set; }
     public Student Student { get; set; }

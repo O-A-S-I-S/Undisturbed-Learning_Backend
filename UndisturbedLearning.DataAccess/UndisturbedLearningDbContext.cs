@@ -14,13 +14,13 @@ public class UndisturbedLearningDbContext : DbContext
         
     }
 
-    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    // {
-    //     if (!optionsBuilder.IsConfigured)
-    //     {
-    //         optionsBuilder.UseSqlServer("Data Source=localhost;Database=UndisturbedLearningDb;Integrated Security=True", builder => builder.EnableRetryOnFailure());
-    //     }
-    // }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer("Data Source=localhost;Database=ULDB;Integrated Security=True", builder => builder.EnableRetryOnFailure());
+        }
+    }
 
     //protected override void OnModelCreating(ModelBuilder modelBuilder)
     //{
@@ -35,5 +35,5 @@ public class UndisturbedLearningDbContext : DbContext
     public DbSet<Report> Reports { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
     public DbSet<Workshop> Workshops { get; set; }
-    public DbSet<StudentWorkshop> StudentWorkshops { get; set; }
+    //public DbSet<StudentWorkshop> StudentWorkshops { get; set; }
 }

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "UndisturbedLearning.Entities": {
+      "commandName": "Project"
+    },
+    "Perfil 1": {
+      "commandName": "Project"
+    }
+  }
+}

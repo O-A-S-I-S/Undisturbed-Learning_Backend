@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TABdJMwoo+MGinXHKO3emEGLeqsz65R+VdspMWVOf0rnQQvdQGnPHUNrMoyX8jsq4k65QNL1lY7e5Lj6xz7l1Q==",
+  "dgSpecHash": "rLwGzbEiN8r74SBwytJV9TmmR+hmwBF2iMJEoJQ5A1XBUO8EtXApQIkDc4nJ7cZTriPKn7W6lC5tFUK8Qph3yQ==",
   "success": true,
-  "projectFilePath": "D:\\Universidad\\Ciclo2022-1\\Ingenieria de Software\\ULB\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj",
+  "projectFilePath": "D:\\Universidad\\Ciclo2022-1\\Ingenieria de Software\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

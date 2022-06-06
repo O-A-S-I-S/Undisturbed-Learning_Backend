@@ -8,7 +8,7 @@ using UndisturbedLearning.Dto.Request;
 namespace UndisturbedLearning.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[Controller]")]
 public class StudentController: ControllerBase
 {
     private readonly UndisturbedLearningDbContext _context;
@@ -21,10 +21,7 @@ public class StudentController: ControllerBase
     [HttpGet]
     public async Task<ActionResult<BaseResponseGeneric<ICollection<Student>>>> Get()
     {
-        // if (_context.Database.CanConnect())
-        // {
-        //     
-        // }
+
         var response = new BaseResponseGeneric<ICollection<Student>>();
 
         try
@@ -55,15 +52,21 @@ public class StudentController: ControllerBase
             BirthDate = request.BirthDate,
             Email = request.Email,
             Cellphone = request.Cellphone,
+            Telephone = request.Telephone,
             Undergraduate = request.Undergraduate,
-            CareerId = _context.Careers.Where(c => c.Name == request.Career).FirstOrDefault().Id,
-            CampusId = _context.Campuses.Where(c => c.Location == request.Campus).FirstOrDefault().Id
+            //CareerId = _context.Careers.Where(c => c.Name == request.Career).FirstOrDefault().Id,
+            //CampusId = _context.Campuses.Where(c => c.Location == request.Campus).FirstOrDefault().Id
+            CareerId =1,
+            CampusId = 1
         };
+       
 
         _context.Students.Add(entity);
         await _context.SaveChangesAsync();
         
         HttpContext.Response.Headers.Add("location", $"/api/student/{entity.Id}");
+        
+        
 
         return Ok();
     }

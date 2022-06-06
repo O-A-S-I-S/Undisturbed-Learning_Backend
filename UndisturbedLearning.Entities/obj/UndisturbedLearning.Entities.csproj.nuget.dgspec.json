@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Universidad\\Ciclo2022-1\\Ingenieria de Software\\ULB\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj": {}
+    "D:\\Universidad\\Ciclo2022-1\\Ingenieria de Software\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj": {}
   },
   "projects": {
-    "D:\\Universidad\\Ciclo2022-1\\Ingenieria de Software\\ULB\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj": {
+    "D:\\Universidad\\Ciclo2022-1\\Ingenieria de Software\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Universidad\\Ciclo2022-1\\Ingenieria de Software\\ULB\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj",
+        "projectUniqueName": "D:\\Universidad\\Ciclo2022-1\\Ingenieria de Software\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj",
         "projectName": "UndisturbedLearning.Entities",
-        "projectPath": "D:\\Universidad\\Ciclo2022-1\\Ingenieria de Software\\ULB\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj",
+        "projectPath": "D:\\Universidad\\Ciclo2022-1\\Ingenieria de Software\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj",
         "packagesPath": "C:\\Users\\luisa\\.nuget\\packages\\",
-        "outputPath": "D:\\Universidad\\Ciclo2022-1\\Ingenieria de Software\\ULB\\UndisturbedLearning.Entities\\obj\\",
+        "outputPath": "D:\\Universidad\\Ciclo2022-1\\Ingenieria de Software\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\luisa\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -18,14 +18,18 @@ public class UndisturbedLearningDbContext : DbContext
     // {
     //     if (!optionsBuilder.IsConfigured)
     //     {
-    //         optionsBuilder.UseSqlServer("Data Source=localhost;Database=UndisturbedLearningDb;Integrated Security=True", builder => builder.EnableRetryOnFailure());
+    //         optionsBuilder.UseSqlServer("Server=localhost,1433;Database=UndisturbedLearningDb;User Id=SA;Password=G3sn8fu%wy&", builder => builder.EnableRetryOnFailure());
     //     }
     // }
 
-    //protected override void OnModelCreating(ModelBuilder modelBuilder)
-    //{
-    //    modelBuilder.Entity<StudentWorkshop>().HasKey(sc => new { sc.StudentId, sc.WorkshopId });
-    //}
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // modelBuilder.Entity<StudentWorkshop>().HasKey(sc => new { sc.StudentId, sc.WorkshopId });
+        modelBuilder.Entity<Psychopedagogist>()
+            .HasOne(c => c.Campus)
+            .WithMany()
+            .OnDelete(DeleteBehavior.NoAction);
+    }
 
     public DbSet<Student> Students { get; set; }
     public DbSet<Psychopedagogist> Psychopedagogists { get; set; }
@@ -35,5 +39,4 @@ public class UndisturbedLearningDbContext : DbContext
     public DbSet<Report> Reports { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
     public DbSet<Workshop> Workshops { get; set; }
-    public DbSet<StudentWorkshop> StudentWorkshops { get; set; }
 }

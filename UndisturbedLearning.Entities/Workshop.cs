@@ -5,8 +5,13 @@ namespace UndisturbedLearning.Entities;
 
 public class Workshop: EntityBase
 {
+    [DataType(DataType.Date)]
+    [Required] 
+    public DateTime Day { get; set; }
+    [DataType(DataType.Time)]
     [Required]
     public DateTime Start { get; set; }
+    [DataType(DataType.Time)]
     [Required]
     public DateTime End { get; set; }
     [StringLength(50)]
@@ -24,8 +29,9 @@ public class Workshop: EntityBase
     [Required]
     public bool Reminder { get; set; }
     
+    [Required]
     public int PsychopedagogistId { get; set; }
     public Psychopedagogist Psychopedagogist { get; set; }
 
-    public ICollection<Student> Students { get; set; }
+    public ICollection<Student>? Students { get; set; }
 }

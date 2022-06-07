@@ -5,8 +5,13 @@ namespace UndisturbedLearning.Entities;
 
 public class Appointment: EntityBase
 {
+    [DataType(DataType.Date)]
+    [Required]
+    public DateTime Day { get; set; }
+    [DataType(DataType.Time)]
     [Required]
     public DateTime Start { get; set; }
+    [DataType(DataType.Time)]
     [Required]
     public DateTime End { get; set; }
     [StringLength(140)]
@@ -20,9 +25,11 @@ public class Appointment: EntityBase
     [Range(0, 10)]
     public int Rating { get; set; }
     
+    [Required]
     public int PsychopedagogistId { get; set; }
     public Psychopedagogist Psychopedagogist { get; set; }
     
+    [Required]
     public int StudentId { get; set; }
     public Student Student { get; set; }
 }

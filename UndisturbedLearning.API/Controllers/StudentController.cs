@@ -21,10 +21,6 @@ public class StudentController: ControllerBase
     [HttpGet]
     public async Task<ActionResult<BaseResponseGeneric<ICollection<Student>>>> Get()
     {
-        // if (_context.Database.CanConnect())
-        // {
-        //     
-        // }
         var response = new BaseResponseGeneric<ICollection<Student>>();
 
         try
@@ -39,7 +35,45 @@ public class StudentController: ControllerBase
             response.Errors.Add(ex.Message);
             return response;
         }
-        
+    }
+
+    [HttpGet("access/{code}")]
+    public async Task<ActionResult<BaseResponseGeneric<string>>> AccessUsername(string code)
+    {
+        var response = new BaseResponseGeneric<string>();
+
+        try
+        {
+            var student = await _context.Students.Where(s => s.Code == code).FirstAsync();
+            response.Result = student.Code;
+            response.Success = true;
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            response.Errors.Add(ex.Message);
+            return response;
+        }
+    }
+    
+    [HttpGet("access/{code}/{password}")]
+    public async Task<ActionResult<BaseResponseGeneric<Student>>> LogIn(string code, string password)
+    {
+        var response = new BaseResponseGeneric<Student>();
+
+        try
+        {
+            response.Result = await _context.Students.Where(s => s.Code == code).Where(s => s.Password == password).FirstAsync();
+            response.Success = true;
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            response.Errors.Add(ex.Message);
+            return response;
+        }
     }
 
     [HttpPost]
@@ -55,6 +89,7 @@ public class StudentController: ControllerBase
             BirthDate = request.BirthDate,
             Email = request.Email,
             Cellphone = request.Cellphone,
+            Telephone = request.Telephone,
             Undergraduate = request.Undergraduate,
             CareerId = _context.Careers.Where(c => c.Name == request.Career).FirstOrDefault().Id,
             CampusId = _context.Campuses.Where(c => c.Location == request.Campus).FirstOrDefault().Id

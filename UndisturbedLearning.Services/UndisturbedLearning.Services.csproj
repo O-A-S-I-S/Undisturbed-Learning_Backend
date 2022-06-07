@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\UndisturbedLearning.DataAccess\UndisturbedLearning.DataAccess.csproj" />
+      <ProjectReference Include="..\UndisturbedLearning.Dto\UndisturbedLearning.Dto.csproj" />
+    </ItemGroup>
+
 </Project>

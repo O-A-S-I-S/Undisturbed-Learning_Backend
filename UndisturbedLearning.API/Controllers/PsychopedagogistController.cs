@@ -27,6 +27,7 @@ public class PsychopedagogistController : ControllerBase
         try
         {
             response.Result = await _context.Psychopedagogists.ToListAsync();
+           
             response.Success = true;
 
             return Ok(response);
@@ -38,4 +39,5 @@ public class PsychopedagogistController : ControllerBase
         }
 
     }
+
 }

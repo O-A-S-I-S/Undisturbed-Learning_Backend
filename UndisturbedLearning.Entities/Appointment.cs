@@ -23,6 +23,6 @@ public class Appointment: EntityBase
     public int PsychopedagogistId { get; set; }
     public Psychopedagogist Psychopedagogist { get; set; }
     
-    public int StudentId { get; set; }
+    public string StudentId { get; set; }
     public Student Student { get; set; }
 }

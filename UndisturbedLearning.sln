@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Entities", "01. Entities", "{F6B1FA09-1C76-43BD-97D5-58168A236FC2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. DataAccess", "02. DataAccess", "{69DDB803-E585-4DF9-9D0E-F1945E0B99DD}"
@@ -10,15 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. DTO", "04. DTO", "{CE7F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05. API", "05. API", "{EA6B3203-DF81-4668-A78E-E336DB4742AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndisturbedLearning.Entities", "UndisturbedLearning.Entities\UndisturbedLearning.Entities.csproj", "{A52CEFCE-D700-4E20-B89F-5399EE55D96F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UndisturbedLearning.Entities", "UndisturbedLearning.Entities\UndisturbedLearning.Entities.csproj", "{A52CEFCE-D700-4E20-B89F-5399EE55D96F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndisturbedLearning.Services", "UndisturbedLearning.Services\UndisturbedLearning.Services.csproj", "{0710CCB3-6350-4E26-AFA8-FFAA76E453D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UndisturbedLearning.Services", "UndisturbedLearning.Services\UndisturbedLearning.Services.csproj", "{0710CCB3-6350-4E26-AFA8-FFAA76E453D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndisturbedLearning.DataAccess", "UndisturbedLearning.DataAccess\UndisturbedLearning.DataAccess.csproj", "{B0C4074C-FB9B-4DAA-A518-44E63E368530}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UndisturbedLearning.DataAccess", "UndisturbedLearning.DataAccess\UndisturbedLearning.DataAccess.csproj", "{B0C4074C-FB9B-4DAA-A518-44E63E368530}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndisturbedLearning.Dto", "UndisturbedLearning.Dto\UndisturbedLearning.Dto.csproj", "{F0068191-682F-484B-A606-B347973F7511}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UndisturbedLearning.Dto", "UndisturbedLearning.Dto\UndisturbedLearning.Dto.csproj", "{F0068191-682F-484B-A606-B347973F7511}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndisturbedLearning.API", "UndisturbedLearning.API\UndisturbedLearning.API.csproj", "{45C72C39-28A4-4270-948F-0543CD64FF9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UndisturbedLearning.API", "UndisturbedLearning.API\UndisturbedLearning.API.csproj", "{45C72C39-28A4-4270-948F-0543CD64FF9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,11 +50,17 @@ Global
 		{45C72C39-28A4-4270-948F-0543CD64FF9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45C72C39-28A4-4270-948F-0543CD64FF9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A52CEFCE-D700-4E20-B89F-5399EE55D96F} = {F6B1FA09-1C76-43BD-97D5-58168A236FC2}
 		{0710CCB3-6350-4E26-AFA8-FFAA76E453D7} = {B8348456-5799-4EA6-8374-FA23B05C1FDB}
 		{B0C4074C-FB9B-4DAA-A518-44E63E368530} = {69DDB803-E585-4DF9-9D0E-F1945E0B99DD}
 		{F0068191-682F-484B-A606-B347973F7511} = {CE7F97CD-F61C-429B-8C00-ECD1296FC347}
 		{45C72C39-28A4-4270-948F-0543CD64FF9E} = {EA6B3203-DF81-4668-A78E-E336DB4742AF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91A09F9E-75F9-466C-9985-C9A785494025}
 	EndGlobalSection
 EndGlobal

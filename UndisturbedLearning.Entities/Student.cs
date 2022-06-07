@@ -2,10 +2,11 @@
 
 namespace UndisturbedLearning.Entities;
 
-public class Student: EntityBase
+public class Student
 {
    [StringLength(9, MinimumLength = 9)]
    [Required]
+   [Key]
    public string Code { get; set; }
    [StringLength(25)]
    [Required]

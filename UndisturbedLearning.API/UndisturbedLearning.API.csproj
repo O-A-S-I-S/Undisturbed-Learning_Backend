@@ -21,6 +21,7 @@
       <ProjectReference Include="..\UndisturbedLearning.DataAccess\UndisturbedLearning.DataAccess.csproj" />
       <ProjectReference Include="..\UndisturbedLearning.Dto\UndisturbedLearning.Dto.csproj" />
       <ProjectReference Include="..\UndisturbedLearning.Entities\UndisturbedLearning.Entities.csproj" />
+      <ProjectReference Include="..\UndisturbedLearning.Services\UndisturbedLearning.Services.csproj" />
     </ItemGroup>
 
 </Project>

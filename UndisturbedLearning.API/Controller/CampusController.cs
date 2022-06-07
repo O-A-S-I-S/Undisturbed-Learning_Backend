@@ -10,9 +10,9 @@ namespace UL_Testing.API.Controller
     [Route("api/[controller]")]
     public class CampusController:ControllerBase
     {
-        private readonly UL_TestingDBContext _context;
+        private readonly UndisturbedLearningDbContext _context;
 
-        public CampusController(UL_TestingDBContext context)
+        public CampusController(UndisturbedLearningDbContext context)
         {
             _context = context;
         }

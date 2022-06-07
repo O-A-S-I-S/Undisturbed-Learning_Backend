@@ -11,9 +11,9 @@ namespace UL_Testing.API.Controller
     [Route("api/[controller]")]
     public class PsychopedagogistController:ControllerBase
     {
-        private readonly UL_TestingDBContext _context;
+        private readonly UndisturbedLearningDbContext _context;
 
-        public PsychopedagogistController(UL_TestingDBContext context)
+        public PsychopedagogistController(UndisturbedLearningDbContext context)
         {
             _context = context;
         }

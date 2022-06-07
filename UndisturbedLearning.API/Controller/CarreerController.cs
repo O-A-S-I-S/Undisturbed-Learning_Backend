@@ -10,9 +10,9 @@ namespace UL_Testing.API.Controller
     [Route("api/[controller]")]
     public class CarreerController:ControllerBase
     {
-        private readonly UL_TestingDBContext _context;
+        private readonly UndisturbedLearningDbContext _context;
 
-        public CarreerController(UL_TestingDBContext context)
+        public CarreerController(UndisturbedLearningDbContext context)
         {
             _context = context;
         }

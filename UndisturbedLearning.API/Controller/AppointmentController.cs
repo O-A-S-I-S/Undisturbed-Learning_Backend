@@ -12,10 +12,10 @@ namespace UL_Testing.API.Controller
     public class AppointmentController : ControllerBase
     {
         
-        private readonly UL_TestingDBContext _context;
+        private readonly UndisturbedLearningDbContext _context;
 
 
-        public AppointmentController(UL_TestingDBContext context)
+        public AppointmentController(UndisturbedLearningDbContext context)
         {
             _context = context;
         }

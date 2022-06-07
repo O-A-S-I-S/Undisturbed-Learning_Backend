@@ -11,9 +11,9 @@ namespace UL_Testing.API.Controller
     [Route("api/[controller]")]
     public class StudentController : ControllerBase
     {
-        private readonly UL_TestingDBContext _context;
+        private readonly UndisturbedLearningDbContext _context;
 
-        public StudentController(UL_TestingDBContext context)
+        public StudentController(UndisturbedLearningDbContext context)
         {
             _context = context;
         }

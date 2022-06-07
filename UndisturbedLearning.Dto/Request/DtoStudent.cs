@@ -17,6 +17,6 @@ public class DtoStudent
    public string Cellphone { get; set; }
    public string Telephone { get; set; }
    public bool Undergraduate { get; set; }
-   //public int Career { get; set; }
-   //public int Campus { get; set; }
+   public string Career { get; set; }
+   public string Campus { get; set; }
 }

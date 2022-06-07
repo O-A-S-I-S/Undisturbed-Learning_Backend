@@ -2,11 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UndisturbedLearning.Entities;
 
-public class Psychopedagogist: EntityBase
+public class Psychopedagogist:EntityBase
 {
    [StringLength(9, MinimumLength = 9)]
    [Required]
-    
+   
    public string Code { get; set; }
    [StringLength(25)]
    [Required]

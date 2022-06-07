@@ -54,6 +54,8 @@ namespace UndisturbedLearning.DataAccess.Migrations
                 name: "Students",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     Dni = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
@@ -69,7 +71,7 @@ namespace UndisturbedLearning.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Students", x => x.Code);
+                    table.PrimaryKey("PK_Students", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Students_Campuses_CampusId",
                         column: x => x.CampusId,
@@ -132,7 +134,7 @@ namespace UndisturbedLearning.DataAccess.Migrations
                     Reminder = table.Column<bool>(type: "bit", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     PsychopedagogistId = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<string>(type: "nvarchar(9)", nullable: false)
+                    StudentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -147,7 +149,7 @@ namespace UndisturbedLearning.DataAccess.Migrations
                         name: "FK_Appointments_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
-                        principalColumn: "Code",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -203,17 +205,17 @@ namespace UndisturbedLearning.DataAccess.Migrations
                 name: "StudentWorkshop",
                 columns: table => new
                 {
-                    StudentsCode = table.Column<string>(type: "nvarchar(9)", nullable: false),
+                    StudentsId = table.Column<int>(type: "int", nullable: false),
                     WorkshopsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentWorkshop", x => new { x.StudentsCode, x.WorkshopsId });
+                    table.PrimaryKey("PK_StudentWorkshop", x => new { x.StudentsId, x.WorkshopsId });
                     table.ForeignKey(
-                        name: "FK_StudentWorkshop_Students_StudentsCode",
-                        column: x => x.StudentsCode,
+                        name: "FK_StudentWorkshop_Students_StudentsId",
+                        column: x => x.StudentsId,
                         principalTable: "Students",
-                        principalColumn: "Code",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_StudentWorkshop_Workshops_WorkshopsId",

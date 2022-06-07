@@ -24,13 +24,13 @@ namespace UndisturbedLearning.DataAccess.Migrations
 
             modelBuilder.Entity("StudentWorkshop", b =>
                 {
-                    b.Property<string>("StudentsCode")
-                        .HasColumnType("nvarchar(9)");
+                    b.Property<int>("StudentsId")
+                        .HasColumnType("int");
 
                     b.Property<int>("WorkshopsId")
                         .HasColumnType("int");
 
-                    b.HasKey("StudentsCode", "WorkshopsId");
+                    b.HasKey("StudentsId", "WorkshopsId");
 
                     b.HasIndex("WorkshopsId");
 
@@ -70,9 +70,8 @@ namespace UndisturbedLearning.DataAccess.Migrations
                     b.Property<DateTime>("Start")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("StudentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(9)");
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -250,9 +249,11 @@ namespace UndisturbedLearning.DataAccess.Migrations
 
             modelBuilder.Entity("UndisturbedLearning.Entities.Student", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasMaxLength(9)
-                        .HasColumnType("nvarchar(9)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -264,6 +265,11 @@ namespace UndisturbedLearning.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Cellphone")
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
+
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(9)
                         .HasColumnType("nvarchar(9)");
@@ -300,7 +306,7 @@ namespace UndisturbedLearning.DataAccess.Migrations
                     b.Property<bool>("Undergraduate")
                         .HasColumnType("bit");
 
-                    b.HasKey("Code");
+                    b.HasKey("Id");
 
                     b.HasIndex("CampusId");
 
@@ -360,7 +366,7 @@ namespace UndisturbedLearning.DataAccess.Migrations
                 {
                     b.HasOne("UndisturbedLearning.Entities.Student", null)
                         .WithMany()
-                        .HasForeignKey("StudentsCode")
+                        .HasForeignKey("StudentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

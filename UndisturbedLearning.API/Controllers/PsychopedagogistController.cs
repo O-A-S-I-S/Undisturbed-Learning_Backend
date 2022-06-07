@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UndisturbedLearning.DataAccess;
 using UndisturbedLearning.Dto;
+using UndisturbedLearning.Dto.Response;
 using UndisturbedLearning.Entities;
 
 namespace UndisturbedLearning.API.Controllers;
@@ -37,6 +38,32 @@ public class PsychopedagogistController : ControllerBase
             response.Errors.Add(ex.Message);
             return response;
         }
+
+    }
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<BaseResponseGeneric<Psychopedagogist>>> GetByPsychopedagogistCode(int id)
+    {
+        var entity = await _context.Psychopedagogists.FindAsync(id);
+        var response = new BaseResponseGeneric<PsychopedagogistResponse>();
+        response.Result = new PsychopedagogistResponse
+        {
+            Code = entity.Code,
+            Surname = entity.Surname
+
+
+        };
+
+        if (entity == null)
+        {
+            return NotFound("No se encontró el registro");
+        }
+
+        return Ok(response);
+
+        //var query = (from S in _context.Students where S.Code.Contains("201716094") select new { Codigo = S.Code, Surname = S.Surname });
+
+        //return Ok(query);
+
 
     }
 

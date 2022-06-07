@@ -136,4 +136,17 @@ public class StudentController: ControllerBase
 
         return Ok();
     }
+
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteStudent(int id)
+    {
+        var student = await _context.Students.FindAsync(id);
+
+        if (student == null) return NotFound("Student does not exist");
+
+        _context.Students.Remove(student);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
 }

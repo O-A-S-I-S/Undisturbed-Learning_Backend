@@ -8,7 +8,8 @@ public class Student: EntityBase
    [Required(ErrorMessage = "{0} is required")]
    [StringLength(9, MinimumLength = 9)]
    public string Code { get; set; }
-   [StringLength(25, MinimumLength = 8)]
+   [AllowNull]
+   [StringLength(25)]
    [DataType(DataType.Password)]
    public string Password { get; set; }
    [Required(ErrorMessage = "{0} is required")]
@@ -25,8 +26,10 @@ public class Student: EntityBase
    [Required(ErrorMessage = "{0} is required")]
    [DataType(DataType.EmailAddress)]
    public string Email { get; set; }
+   [AllowNull]
    [StringLength(9)]
    public string Cellphone { get; set; }
+   [AllowNull]
    [StringLength(7)]
    public string Telephone { get; set; }
    [Required(ErrorMessage = "Type of student is required")]

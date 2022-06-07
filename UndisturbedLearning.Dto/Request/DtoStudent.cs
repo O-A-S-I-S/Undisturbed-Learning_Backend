@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
@@ -8,9 +9,6 @@ public class DtoStudent
    [Required(ErrorMessage = "{0} is required")]
    [StringLength(9, MinimumLength = 9)]
    public string Code { get; set; }
-   [StringLength(25, MinimumLength = 8)]
-   [DataType(DataType.Password)]
-   public string Password { get; set; }
    [Required(ErrorMessage = "{0} is required")]
    [StringLength(8, MinimumLength = 8)]
    public string Dni { get; set; }
@@ -25,10 +23,8 @@ public class DtoStudent
    [Required(ErrorMessage = "{0} is required")]
    [DataType(DataType.EmailAddress)]
    public string Email { get; set; }
-   [AllowNull]
    [StringLength(9)]
    public string Cellphone { get; set; }
-   [AllowNull]
    [StringLength(7)]
    public string Telephone { get; set; }
    [Required(ErrorMessage = "Type of student is required")]

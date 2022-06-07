@@ -4,6 +4,7 @@ using UndisturbedLearning.DataAccess;
 using UndisturbedLearning.Entities;
 using UndisturbedLearning.Dto;
 using UndisturbedLearning.Dto.Request;
+using UndisturbedLearning.Dto.Response;
 
 namespace UndisturbedLearning.API.Controllers;
 
@@ -17,72 +18,105 @@ public class StudentController: ControllerBase
     {
         _context = context;
     }
+    
+    private static DtoStudentResponse StudentToResponse(Student student) => new DtoStudentResponse
+        {
+            Id = student.Id,
+            Code = student.Code,
+            Password = student.Password,
+            Dni = student.Dni,
+            Surname = student.Surname,
+            LastName = student.LastName,
+            BirthDate = student.BirthDate,
+            Email = student.Email,
+            Cellphone = student.Cellphone,
+            Telephone = student.Telephone,
+            Undergraduate = student.Undergraduate,
+        };
+
+    private static DtoLogInResponse StudentToLogInResponse(Student student) => new DtoLogInResponse
+    {
+
+        Code = student.Code,
+        Password = student.Password,
+        Surname = student.Surname,
+        LastName = student.LastName,
+        Email = student.Email,
+    };
 
     [HttpGet]
-    public async Task<ActionResult<BaseResponseGeneric<ICollection<Student>>>> Get()
+    public async Task<ActionResult<ICollection<Student>>> Get()
     {
-        var response = new BaseResponseGeneric<ICollection<Student>>();
+        ICollection<DtoStudentResponse> response = await _context.Students.Select(s => StudentToResponse(s)).ToListAsync();
 
-        try
-        {
-            response.Result = await _context.Students.ToListAsync();
-            response.Success = true;
-            
-            return Ok(response);
-        }
-        catch (Exception ex)
-        {
-            response.Errors.Add(ex.Message);
-            return response;
-        }
+        return Ok(response);
+    }
+    
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<string>> GetById(int id)
+    {
+        var student = await _context.Students.Where(s => s.Id == id).FirstAsync();
+
+        if (student == null) return NotFound("There is no student with such id");
+
+        return Ok(StudentToResponse(student));
     }
 
     [HttpGet("access/{code}")]
-    public async Task<ActionResult<BaseResponseGeneric<string>>> AccessUsername(string code)
+    public async Task<ActionResult<string>> AccessUsername(string code)
     {
-        var response = new BaseResponseGeneric<string>();
+        var student = await _context.Students.Where(s => s.Code == code).FirstAsync();
 
-        try
-        {
-            var student = await _context.Students.Where(s => s.Code == code).FirstAsync();
-            response.Result = student.Code;
-            response.Success = true;
+        if (student == null) return NotFound("Invalid student code");
 
-            return Ok(response);
-        }
-        catch (Exception ex)
+        return Ok(
+        new
         {
-            response.Errors.Add(ex.Message);
-            return response;
-        }
+            Code = code
+        });
     }
     
-    [HttpGet("access/{code}/{password}")]
-    public async Task<ActionResult<BaseResponseGeneric<Student>>> LogIn(string code, string password)
+    [HttpGet("access")]
+    public async Task<ActionResult<Student>> LogIn(DtoLogIn credentials)
     {
-        var response = new BaseResponseGeneric<Student>();
+        var student = await _context.Students.Where(s => s.Code == credentials.Username)
+            .Where(s => s.Password == credentials.Password).FirstAsync();
 
-        try
-        {
-            response.Result = await _context.Students.Where(s => s.Code == code).Where(s => s.Password == password).FirstAsync();
-            response.Success = true;
+        if (student == null) return BadRequest("Incorrect password");
 
-            return Ok(response);
-        }
-        catch (Exception ex)
-        {
-            response.Errors.Add(ex.Message);
-            return response;
-        }
+        return Ok(StudentToLogInResponse(student));
+    }
+    
+    [HttpPut("register")]
+    public async Task<ActionResult<Student>> SignIn(DtoSignIn request)
+    {
+        var student = await _context.Students.Where(s => s.Code == request.Username).FirstAsync();
+
+        if (student == null) return NotFound("Student does not exist");
+
+        if (student.Password != "") return BadRequest("A password has been already set");
+
+        student.Password = request.Password;
+
+        _context.Entry(student).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+
+        return Ok(StudentToLogInResponse(student));
     }
 
     [HttpPost]
     public async Task<ActionResult> Post(DtoStudent request)
     {
+        var career = _context.Careers.Where(c => c.Name == request.Career).First();
+        var campus = _context.Campuses.Where(c => c.Location == request.Campus).First();
+
+        if (career == null) return BadRequest("Invalid career name");
+        if (campus == null) return BadRequest("Invalid campus name");
+        
         var entity = new Student
         {
             Code = request.Code,
-            Password = request.Password,
+            Password = "",
             Dni = request.Dni,
             Surname = request.Surname,
             LastName = request.LastName,
@@ -91,8 +125,8 @@ public class StudentController: ControllerBase
             Cellphone = request.Cellphone,
             Telephone = request.Telephone,
             Undergraduate = request.Undergraduate,
-            CareerId = _context.Careers.Where(c => c.Name == request.Career).FirstOrDefault().Id,
-            CampusId = _context.Campuses.Where(c => c.Location == request.Campus).FirstOrDefault().Id
+            CareerId = career.Id,
+            CampusId = campus.Id
         };
 
         _context.Students.Add(entity);

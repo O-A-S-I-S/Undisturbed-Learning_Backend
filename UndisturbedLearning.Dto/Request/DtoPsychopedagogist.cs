@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UL_Testing.Dto.Request
 {
-    public class DtoStudent
+    public class DtoPsychopedagogist
     {
         public string Code { get; set; }
         [DataType(DataType.Password)]
@@ -21,8 +21,11 @@ namespace UL_Testing.Dto.Request
         public string Email { get; set; }
         public string Cellphone { get; set; }
         public string Telephone { get; set; }
-        public bool Undergraduate { get; set; }
-        public string Career { get; set; }
+
+        public bool IndividualAssistance { get; set; }
+        public string Profession { get; set; }
         public string Campus { get; set; }
+
+
     }
 }

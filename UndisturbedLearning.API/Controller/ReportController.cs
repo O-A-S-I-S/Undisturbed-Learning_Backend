@@ -31,9 +31,10 @@ namespace UL_Testing.API.Controller
 
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Report>> Get(int id)
+        public ActionResult<Report> Get(int id)
         {
-            var entity = await _context.Reports.FindAsync(id);
+            //var entity = await _context.Reports.FindAsync(id);
+            var entity = _context.Reports.Where(r => r.AppointmentId == id).FirstOrDefault<Report>();
             if (entity == null)
             {
                 return NotFound("No se encontró el registro");

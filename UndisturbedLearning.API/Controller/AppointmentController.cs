@@ -41,6 +41,44 @@ namespace UL_Testing.API.Controller
             
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Appointment>> Get(int id)
+        {
+            var entity = await _context.Appointments.FindAsync(id);
+            if (entity == null)
+            {
+                return NotFound("No se encontró el registro");
+            }
+            else if (entity.Comment == "")
+            {
+                return NotFound("No se encontró comentario alguno en esta cita");
+            }
+            else return Ok(new
+            {
+                Start = entity.Start,
+                End = entity.End,
+                Comment = entity.Comment
+            });
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(int id, string request)
+        {
+            var entity = await _context.Appointments.FindAsync(id);
+
+            if (entity == null) return NotFound();
+
+            entity.Comment = request;
+
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Id = id
+            });
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post(DtoAppointment request)
         {

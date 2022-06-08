@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UndisturbedLearning.Dto.Response;
 
-public class AppointmentResponse
+public class DtoAppointmentResponse
 {
     
     public DateTime Start { get; set; }
@@ -21,8 +21,8 @@ public class AppointmentResponse
     public int Rating { get; set; }
 
 
-    public PsychopedagogistResponse Psychopedagogist { get; set; }
+    public int PsychopedagogistId { get; set; }
 
 
-    public DtoStudentResponse Student { get; set; }
+    public int StudentId { get; set; }
 }

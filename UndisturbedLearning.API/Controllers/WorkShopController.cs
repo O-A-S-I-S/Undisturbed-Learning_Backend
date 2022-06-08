@@ -82,18 +82,35 @@ public class WorkShopController : ControllerBase
 
         return Ok();
     }
+    [HttpGet]
+    [Route("psychopedagogist/{code}")]
+    public async Task<ActionResult<BaseResponseGeneric<ICollection<DtoWorkshopResponse>>>> GetWorkshopByPsychopedagogistId(string code)
+    {
+        var entity = await _context.Workshops.Select(w => WorkshopToResponse(w)).ToListAsync();
+        var lista = new List<DtoWorkshopResponse>();
+        var id = _context.Psychopedagogists.Where(p => p.Code == code).FirstOrDefault().Id;
+        for (int i = 0; i < entity.Count; i++)
+        {
+            var workshop = entity[i];
+            if (workshop.PsychopedagogistId == id) lista.Add(workshop);
+        }
 
- 
+
+        if (lista == null)
+        {
+            return NotFound("No se encontró el registro");
+        }
+
+        return Ok(lista);
+
+
+    }
+
 
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> Delete(int id)
     {
-        //_context.Entry(new Appointment
-        //{
-        //    Id = id
-        //}).State = EntityState.Deleted;
-        //await  _context.SaveChangesAsync();
-        //return null;
+
         var entity = await _context.Workshops.FindAsync(id);
         if (entity == null) return NotFound();
         _context.Entry(entity).State = EntityState.Deleted;

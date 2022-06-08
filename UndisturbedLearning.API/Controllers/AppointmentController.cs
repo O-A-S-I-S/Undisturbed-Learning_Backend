@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using UndisturbedLearning.DataAccess;
 using UndisturbedLearning.Dto;
 using UndisturbedLearning.Dto.Request;
+using UndisturbedLearning.Dto.Response;
 using UndisturbedLearning.Entities;
 
 namespace UndisturbedLearning.API.Controllers;
@@ -13,7 +14,17 @@ namespace UndisturbedLearning.API.Controllers;
 public class AppointmentController : ControllerBase
 {
     private readonly UndisturbedLearningDbContext _context;
-   
+    private static DtoAppointmentResponse AppointmentToResponse(Appointment appointment) => new DtoAppointmentResponse
+    {
+        Start=appointment.Start,
+        End =appointment.End,
+        CauseDescription=appointment.CauseDescription,
+        Comment =appointment.Comment,
+        Rating=appointment.Rating,
+        PsychopedagogistId=appointment.PsychopedagogistId,
+        StudentId  =appointment.StudentId,
+
+};
     public AppointmentController(UndisturbedLearningDbContext context)
     {
         _context = context;
@@ -21,14 +32,14 @@ public class AppointmentController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<BaseResponseGeneric<ICollection<Appointment>>>> Get()
+    public async Task<ActionResult<BaseResponseGeneric<ICollection<DtoAppointmentResponse>>>> Get()
     {
 
-        var response = new BaseResponseGeneric<ICollection<Appointment>>();
+        var response = new BaseResponseGeneric<ICollection<DtoAppointmentResponse>>();
          
         try
         {
-            response.Result = await _context.Appointments.ToListAsync();
+            response.Result = await _context.Appointments.Select(a=>AppointmentToResponse(a)).ToListAsync();
             response.Success = true;
 
             return Ok(response);

@@ -13,7 +13,15 @@ namespace UndisturbedLearning.API.Controllers;
 public class PsychopedagogistController : ControllerBase
 {
     private readonly UndisturbedLearningDbContext _context;
-    
+    private static PsychopedagogistResponse PsychopedagogistToResponse(Psychopedagogist psychopedagogist) => new PsychopedagogistResponse
+    {
+        Code=psychopedagogist.Code,
+        Surname=psychopedagogist.Surname,
+        LastName=psychopedagogist.LastName,
+        Email=psychopedagogist.Email,
+        Cellphone=psychopedagogist.Cellphone,
+
+    };
     private static DtoWorkshopResponse WorkshopToResponse(Workshop workshop) => new DtoWorkshopResponse
     {
         Start = workshop.Start,
@@ -33,14 +41,14 @@ public class PsychopedagogistController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<BaseResponseGeneric<ICollection<Psychopedagogist>>>> Get()
+    public async Task<ActionResult<BaseResponseGeneric<ICollection<PsychopedagogistResponse>>>> Get()
     {
 
-        var response = new BaseResponseGeneric<ICollection<Psychopedagogist>>();
+        var response = new BaseResponseGeneric<ICollection<PsychopedagogistResponse>>();
 
         try
         {
-            response.Result = await _context.Psychopedagogists.ToListAsync();
+            response.Result = await _context.Psychopedagogists.Select(p=>PsychopedagogistToResponse(p)).ToListAsync();
 
             response.Success = true;
 

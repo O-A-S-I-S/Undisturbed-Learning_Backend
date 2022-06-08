@@ -34,10 +34,16 @@ namespace UL_Testing.API.Controller
         public ActionResult<Report> Get(int id)
         {
             //var entity = await _context.Reports.FindAsync(id);
+            var entity_appointment = _context.Appointments.Where(a => a.Id == id).FirstOrDefault<Appointment>();
+            if (entity_appointment == null)
+            {
+                return NotFound("No existe la cita en los registros");
+            }
+
             var entity = _context.Reports.Where(r => r.AppointmentId == id).FirstOrDefault<Report>();
             if (entity == null)
             {
-                return NotFound("No se encontró el registro");
+                return NotFound("No se ha generado reporte alguno de la cita");
             }
 
             return Ok(entity);

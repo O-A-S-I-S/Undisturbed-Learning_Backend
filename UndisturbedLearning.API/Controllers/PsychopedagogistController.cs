@@ -13,9 +13,22 @@ namespace UndisturbedLearning.API.Controllers;
 public class PsychopedagogistController : ControllerBase
 {
     private readonly UndisturbedLearningDbContext _context;
-
+    
+    private static DtoWorkshopResponse WorkshopToResponse(Workshop workshop) => new DtoWorkshopResponse
+    {
+        Start = workshop.Start,
+        End = workshop.End,
+        Title = workshop.Title,
+        Brief = workshop.Brief,
+        Text = workshop.Text,
+        Comment = workshop.Comment,
+        Reminder = workshop.Reminder,
+        PsychopedagogistId = workshop.PsychopedagogistId
+       
+    };
     public PsychopedagogistController(UndisturbedLearningDbContext context)
     {
+        
         _context = context;
     }
 
@@ -28,7 +41,7 @@ public class PsychopedagogistController : ControllerBase
         try
         {
             response.Result = await _context.Psychopedagogists.ToListAsync();
-           
+
             response.Success = true;
 
             return Ok(response);
@@ -39,30 +52,30 @@ public class PsychopedagogistController : ControllerBase
             return response;
         }
 
+
     }
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<BaseResponseGeneric<Psychopedagogist>>> GetByPsychopedagogistCode(int id)
+
+
+    [HttpGet]
+    [Route("workshops/{code}")]
+    public async Task<ActionResult<BaseResponseGeneric<ICollection<DtoWorkshopResponse>>>> GetWorkshopByPsychopedagogistId(string code)
     {
-        var entity = await _context.Psychopedagogists.FindAsync(id);
-        var response = new BaseResponseGeneric<PsychopedagogistResponse>();
-        response.Result = new PsychopedagogistResponse
+        var entity = await _context.Workshops.Select(w=>WorkshopToResponse(w)).ToListAsync();
+        var lista = new List<DtoWorkshopResponse>();
+        var id = _context.Psychopedagogists.Where(p=>p.Code == code).FirstOrDefault().Id;
+        for (int i = 0; i < entity.Count; i++)
         {
-            Code = entity.Code,
-            Surname = entity.Surname
+            var workshop = entity[i];
+            if(workshop.PsychopedagogistId == id)lista.Add(workshop);
+        }
 
 
-        };
-
-        if (entity == null)
+        if (lista == null)
         {
             return NotFound("No se encontró el registro");
         }
-
-        return Ok(response);
-
-        //var query = (from S in _context.Students where S.Code.Contains("201716094") select new { Codigo = S.Code, Surname = S.Surname });
-
-        //return Ok(query);
+       
+        return Ok(lista);
 
 
     }

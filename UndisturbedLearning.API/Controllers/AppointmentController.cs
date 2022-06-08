@@ -13,10 +13,11 @@ namespace UndisturbedLearning.API.Controllers;
 public class AppointmentController : ControllerBase
 {
     private readonly UndisturbedLearningDbContext _context;
-
+   
     public AppointmentController(UndisturbedLearningDbContext context)
     {
         _context = context;
+        
     }
 
     [HttpGet]
@@ -24,7 +25,7 @@ public class AppointmentController : ControllerBase
     {
 
         var response = new BaseResponseGeneric<ICollection<Appointment>>();
-
+         
         try
         {
             response.Result = await _context.Appointments.ToListAsync();
@@ -42,17 +43,19 @@ public class AppointmentController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Post(DtoAppointment request)
     {
+        
+       
         var entity = new Appointment
         {
             Start = request.StartTime,
             End = request.EndTime,
             CauseDescription = request.CauseDescription,
-            Comment = request.Comment,
+            //Comment = request.Comment,
             Reminder = request.Reminder,
-            Rating = request.Rating,    
+            //Rating = request.Rating,
             PsychopedagogistId = _context.Psychopedagogists.Where(c => c.Code == request.Psychopedagogist).FirstOrDefault().Id,
             StudentId = _context.Students.Where(c => c.Code == request.Student).FirstOrDefault().Id,
-
+            
 
         };
 
@@ -68,13 +71,13 @@ public class AppointmentController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> Put(int id, DtoAppointment request)
+    public async Task<ActionResult> Put(int id, int rating)
     {
         var entity = await _context.Appointments.FindAsync(id);
 
         if (entity == null) return NotFound();
 
-        entity.Rating = request.Rating;
+        entity.Rating = rating;
 
         _context.Entry(entity).State = EntityState.Modified;
         await _context.SaveChangesAsync();

@@ -22,16 +22,30 @@ public class StudentController : ControllerBase
     {
         _context = context;
     }
+    private static DtoStudentResponse StudentToResponse(Student student) => new DtoStudentResponse
+    {
+        Id = student.Id,
+        Code = student.Code,
+        Dni = student.Dni,
+        Surname = student.Surname,
+        LastName = student.LastName,
+        BirthDate = student.BirthDate,
+        Email = student.Email,
+        Cellphone = student.Cellphone,
+        Telephone = student.Telephone,
+        Undergraduate = student.Undergraduate,
+    };
 
     [HttpGet]
-    public async Task<ActionResult<BaseResponseGeneric<ICollection<Student>>>> Get()
+    public async Task<ActionResult<BaseResponseGeneric<ICollection<DtoStudentResponse>>>> Get()
     {
 
-        var response = new BaseResponseGeneric<ICollection<Student>>();
+        var response = new BaseResponseGeneric<ICollection<DtoStudentResponse>>();
 
         try
         {
-            response.Result = await _context.Students.ToListAsync();
+            response.Result = await _context.Students.Select(s=>StudentToResponse(s)).ToListAsync();
+
             response.Success = true;
 
             return Ok(response);
@@ -41,6 +55,8 @@ public class StudentController : ControllerBase
             response.Errors.Add(ex.Message);
             return response;
         }
+
+
 
     }
 
@@ -77,14 +93,23 @@ public class StudentController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<BaseResponseGeneric<Student>>>GetByStudentCode(int id)
+    public async Task<ActionResult<BaseResponseGeneric<Student>>>GetStudentById(int id)
     {
         var entity = await _context.Students.FindAsync(id);
-        var response = new BaseResponseGeneric<StudentResponse>();
-        response.Result = new StudentResponse
+        var response = new BaseResponseGeneric<DtoStudentResponse>();
+        response.Result = new DtoStudentResponse
         {
+
+            Id = entity.Id,
             Code = entity.Code,
-            Surname = entity.Surname
+            Dni = entity.Dni,
+            Surname = entity.Surname,
+            LastName = entity.LastName,
+            BirthDate = entity.BirthDate,
+            Email = entity.Email,
+            Cellphone = entity.Cellphone,
+            Telephone = entity.Telephone,
+            Undergraduate = entity.Undergraduate,
 
 
         };
@@ -95,6 +120,23 @@ public class StudentController : ControllerBase
         }
 
         return Ok(response);
+
+
+    }
+    
+    [HttpGet]
+    [Route("email/{id}")]
+    public async Task<ActionResult<BaseResponseGeneric<Student>>> GetEmailFromStudent(int id)
+    {
+        var entity = await _context.Students.FindAsync(id);
+
+
+        if (entity == null)
+        {
+            return NotFound("No se encontró el registro");
+        }
+        var email = entity.Email;
+        return Ok(email);
 
 
     }

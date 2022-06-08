@@ -46,7 +46,12 @@ namespace UL_Testing.API.Controller
                 return NotFound("No se ha generado reporte alguno de la cita");
             }
 
-            return Ok(entity);
+            return Ok(new
+            {
+                Resolution = entity.Resolution,
+                Brief = entity.Brief,
+                Text = entity.Text,
+            });
         }
 
 

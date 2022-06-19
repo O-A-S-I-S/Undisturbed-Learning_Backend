@@ -95,31 +95,36 @@ public class StudentController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<BaseResponseGeneric<Student>>>GetStudentById(int id)
     {
-        var entity = await _context.Students.FindAsync(id);
+        
+            var entity = await _context.Students.FindAsync(id);
+            if (entity == null)
+            {
+                return NotFound("No se encontró el registro");
+            }
         var response = new BaseResponseGeneric<DtoStudentResponse>();
-        response.Result = new DtoStudentResponse
-        {
+            response.Result = new DtoStudentResponse
+            {
 
-            Id = entity.Id,
-            Code = entity.Code,
-            Dni = entity.Dni,
-            Surname = entity.Surname,
-            LastName = entity.LastName,
-            BirthDate = entity.BirthDate,
-            Email = entity.Email,
-            Cellphone = entity.Cellphone,
-            Telephone = entity.Telephone,
-            Undergraduate = entity.Undergraduate,
+                Id = entity.Id,
+                Code = entity.Code,
+                Dni = entity.Dni,
+                Surname = entity.Surname,
+                LastName = entity.LastName,
+                BirthDate = entity.BirthDate,
+                Email = entity.Email,
+                Cellphone = entity.Cellphone,
+                Telephone = entity.Telephone,
+                Undergraduate = entity.Undergraduate,
 
 
-        };
+            };
 
-        if (entity == null)
-        {
-            return NotFound("No se encontró el registro");
-        }
 
-        return Ok(response);
+
+            return Ok(response);
+        
+       
+        
 
 
     }

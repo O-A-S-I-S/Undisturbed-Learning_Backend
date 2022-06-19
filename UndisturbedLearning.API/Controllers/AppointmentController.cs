@@ -51,6 +51,35 @@ public class AppointmentController : ControllerBase
         }
 
     }
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<BaseResponseGeneric<ICollection<DtoAppointmentResponse>>>> GetAppointmentByStudentId(int id)
+    {
+        
+            var entity = await _context.Students.FindAsync(id);
+            if (entity == null) return NotFound("No se encontró el registro");
+            var response = new BaseResponseGeneric<ICollection<DtoAppointmentResponse>>();
+            var appos= await _context.Appointments.Select(A => AppointmentToResponse(A)).ToListAsync();
+
+            var lista = new List<DtoAppointmentResponse>();
+        //var id = _context.Students.Where(s => s.Code == code).FirstOrDefault().Id;
+        //for (int i = 0; i < entity.Count; i++)
+        //{
+        //    var appointment = entity[i];
+        //    if (appointment.StudentId == id) lista.Add(appointment);
+        //}
+        for (int i = 0; i < appos.Count; i++)
+        {
+            var appointment = appos[i];
+            if (appointment.StudentId == id) lista.Add(appointment);
+        }
+
+        
+
+            return Ok(lista);
+        
+       
+
+    }
     [HttpPost]
     public async Task<ActionResult> Post(DtoAppointment request)
     {

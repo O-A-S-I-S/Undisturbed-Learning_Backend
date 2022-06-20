@@ -16,6 +16,7 @@ public class AppointmentController : ControllerBase
     private readonly UndisturbedLearningDbContext _context;
     private static DtoAppointmentResponse AppointmentToResponse(Appointment appointment) => new DtoAppointmentResponse
     {
+        Id=appointment.Id,
         Start=appointment.Start,
         End =appointment.End,
         CauseDescription=appointment.CauseDescription,
@@ -61,17 +62,12 @@ public class AppointmentController : ControllerBase
             var appos= await _context.Appointments.Select(A => AppointmentToResponse(A)).ToListAsync();
 
             var lista = new List<DtoAppointmentResponse>();
-        //var id = _context.Students.Where(s => s.Code == code).FirstOrDefault().Id;
-        //for (int i = 0; i < entity.Count; i++)
-        //{
-        //    var appointment = entity[i];
-        //    if (appointment.StudentId == id) lista.Add(appointment);
-        //}
-        for (int i = 0; i < appos.Count; i++)
-        {
-            var appointment = appos[i];
-            if (appointment.StudentId == id) lista.Add(appointment);
-        }
+       
+            for (int i = 0; i < appos.Count; i++)
+            {
+                var appointment = appos[i];
+                if (appointment.StudentId == id) lista.Add(appointment);
+            }
 
         
 
@@ -90,9 +86,9 @@ public class AppointmentController : ControllerBase
             Start = request.StartTime,
             End = request.EndTime,
             CauseDescription = request.CauseDescription,
-            //Comment = request.Comment,
-            Reminder = request.Reminder,
-            //Rating = request.Rating,
+            Comment = "",
+            Reminder =true,
+            Rating = 0,
             PsychopedagogistId = _context.Psychopedagogists.Where(c => c.Code == request.Psychopedagogist).FirstOrDefault().Id,
             StudentId = _context.Students.Where(c => c.Code == request.Student).FirstOrDefault().Id,
             

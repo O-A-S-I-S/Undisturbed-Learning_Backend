@@ -1,17 +1,13 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UndisturbedLearning.Entities;
 
 public class Workshop: EntityBase
 {
-    [DataType(DataType.Date)]
-    [Required] 
-    public DateTime Day { get; set; }
-    [DataType(DataType.Time)]
     [Required]
     public DateTime Start { get; set; }
-    [DataType(DataType.Time)]
     [Required]
     public DateTime End { get; set; }
     [StringLength(50)]
@@ -34,4 +30,29 @@ public class Workshop: EntityBase
     public Psychopedagogist Psychopedagogist { get; set; }
 
     public ICollection<Student>? Students { get; set; }
+    
+    [NotMapped]
+    public string Date
+    {
+        get
+        {
+            return Start.ToLongDateString();
+        }
+    }
+    [NotMapped]
+    public string StartTime
+    {
+        get
+        {
+            return Start.ToShortTimeString();
+        }
+    }
+    [NotMapped]
+    public string EndTime
+    {
+        get
+        {
+            return End.ToShortTimeString();
+        }
+    }
 }

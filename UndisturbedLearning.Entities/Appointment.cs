@@ -1,17 +1,14 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Mime;
 
 namespace UndisturbedLearning.Entities;
 
 public class Appointment: EntityBase
 {
-    [DataType(DataType.Date)]
-    [Required]
-    public DateTime Day { get; set; }
-    [DataType(DataType.Time)]
     [Required]
     public DateTime Start { get; set; }
-    [DataType(DataType.Time)]
     [Required]
     public DateTime End { get; set; }
     [StringLength(30)]
@@ -38,4 +35,29 @@ public class Appointment: EntityBase
     [Required]
     public int StudentId { get; set; }
     public Student Student { get; set; }
+    
+    [NotMapped]
+    public string Date
+    {
+        get
+        {
+            return Start.ToShortDateString();
+        }
+    }
+    [NotMapped]
+    public string StartTime
+    {
+        get
+        {
+            return Start.ToShortTimeString();
+        }
+    }
+    [NotMapped]
+    public string EndTime
+    {
+        get
+        {
+            return End.ToShortTimeString();
+        }
+    }
 }

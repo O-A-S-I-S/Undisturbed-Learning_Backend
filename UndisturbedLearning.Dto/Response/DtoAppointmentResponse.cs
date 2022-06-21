@@ -10,9 +10,9 @@ public class DtoAppointmentResponse
     public string Activity { get; set; }
     public string CauseDescription { get; set; }
     public bool Virtual { get; set; }
-    public DateTime Day { get; set; }
-    public DateTime Start { get; set; }
-    public DateTime End { get; set; }
+    public string Date { get; set; }
+    public string StartTime { get; set; }
+    public string EndTime { get; set; }
     public string Comment { get; set; }
     public bool Reminder { get; set; }
     public int Rating { get; set; }

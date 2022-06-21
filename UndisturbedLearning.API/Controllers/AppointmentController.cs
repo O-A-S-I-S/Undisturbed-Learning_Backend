@@ -30,21 +30,21 @@ public class AppointmentController : ControllerBase
     [HttpGet("student/{id:int}")]
     public async Task<ActionResult<ICollection<Appointment>>> GetByStudentId(int id)
     {
-        ICollection<DtoAppointmentResponse> appointments = await _context.Appointments.Join(_context.Students, 
+        ICollection<DtoAppointmentResponse> appointments = await _context.Appointments.Join(_context.Psychopedagogists, 
             appointment => appointment.PsychopedagogistId, 
-            student => student.Id,
-            (appointment, student) => new DtoAppointmentResponse
+            psychopedagogist => psychopedagogist.Id,
+            (appointment, psychopedagogist) => new DtoAppointmentResponse
             {
                 Id = appointment.Id,
                 StudentId = appointment.StudentId,
-                Student = student.Surname + student.LastName,
                 PsychopedagogistId = appointment.PsychopedagogistId,
+                Psychopedagogist = psychopedagogist.Surname + " " + psychopedagogist.LastName,
                 Activity = appointment.Activity,
                 CauseDescription = appointment.CauseDescription,
                 Virtual = appointment.Virtual,
-                Day = appointment.Day,
-                Start = appointment.Start,
-                End = appointment.End,
+                Date = appointment.Date,
+                StartTime = appointment.StartTime,
+                EndTime = appointment.EndTime,
                 Comment = appointment.Comment,
                 Reminder = appointment.Reminder,
                 Rating = appointment.Rating,
@@ -56,25 +56,25 @@ public class AppointmentController : ControllerBase
     [HttpGet("psychopedagogist/{id:int}")]
     public async Task<ActionResult<ICollection<Appointment>>> GetByPsychopedagogistId(int id)
     {
-        ICollection<DtoAppointmentResponse> appointments = await _context.Appointments.Join(_context.Psychopedagogists, 
+        ICollection<DtoAppointmentResponse> appointments = await _context.Appointments.Join(_context.Students, 
             appointment => appointment.PsychopedagogistId, 
-            psychopedagogist => psychopedagogist.Id,
-            (appointment, psychopedagogist) => new DtoAppointmentResponse
-        {
-            Id = appointment.Id,
-            StudentId = appointment.StudentId,
-            PsychopedagogistId = appointment.PsychopedagogistId,
-            Psychopedagogist = psychopedagogist.Surname + psychopedagogist.LastName,
-            Activity = appointment.Activity,
-            CauseDescription = appointment.CauseDescription,
-            Virtual = appointment.Virtual,
-            Day = appointment.Day,
-            Start = appointment.Start,
-            End = appointment.End,
-            Comment = appointment.Comment,
-            Reminder = appointment.Reminder,
-            Rating = appointment.Rating,
-        }).Where(a => a.PsychopedagogistId == id).ToListAsync();
+            student => student.Id,
+            (appointment, student) => new DtoAppointmentResponse
+            {
+                Id = appointment.Id,
+                StudentId = appointment.StudentId,
+                Student = student.Surname + " " +  student.LastName,
+                PsychopedagogistId = appointment.PsychopedagogistId,
+                Activity = appointment.Activity,
+                CauseDescription = appointment.CauseDescription,
+                Virtual = appointment.Virtual,
+                Date = appointment.Date,
+                StartTime = appointment.StartTime,
+                EndTime = appointment.EndTime,
+                Comment = appointment.Comment,
+                Reminder = appointment.Reminder,
+                Rating = appointment.Rating,
+            }).Where(a => a.PsychopedagogistId == id).ToListAsync();
         
         return Ok(appointments);
     }
@@ -95,7 +95,6 @@ public class AppointmentController : ControllerBase
 
         var appointment = new Appointment
         {
-            Day = request.Day,
             Start = request.Start,
             End = request.End,
             Activity = request.Activity,

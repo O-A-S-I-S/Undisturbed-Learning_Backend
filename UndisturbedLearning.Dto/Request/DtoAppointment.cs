@@ -5,13 +5,8 @@ namespace UndisturbedLearning.Dto.Request;
 
 public class DtoAppointment
 {
-    [DataType(DataType.Date)]
-    [Required]
-    public DateTime Day { get; set; }
-    [DataType(DataType.Time)]
     [Required]
     public DateTime Start { get; set; }
-    [DataType(DataType.Time)]
     [Required]
     public DateTime End { get; set; }
     [StringLength(30)]

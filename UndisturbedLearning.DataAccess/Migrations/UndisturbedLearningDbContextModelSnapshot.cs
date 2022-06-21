@@ -45,6 +45,11 @@ namespace UndisturbedLearning.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Activity")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
                     b.Property<string>("CauseDescription")
                         .IsRequired()
                         .HasMaxLength(140)
@@ -54,9 +59,6 @@ namespace UndisturbedLearning.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("End")
                         .HasColumnType("datetime2");
@@ -75,6 +77,9 @@ namespace UndisturbedLearning.DataAccess.Migrations
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Virtual")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -335,9 +340,6 @@ namespace UndisturbedLearning.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("Day")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("End")
                         .HasColumnType("datetime2");

@@ -57,7 +57,6 @@ public class ReportController:ControllerBase
             {
                 Id = report.Id,
                 StudentId = appointment.StudentId,
-                PsychopedagogistId = appointment.PsychopedagogistId,
                 Activity = appointment.Activity,
                 CauseDescription = appointment.CauseDescription,
                 Resolution = report.Resolution,
@@ -76,7 +75,6 @@ public class ReportController:ControllerBase
             {
                 Id = report.Id,
                 StudentId = appointment.StudentId,
-                PsychopedagogistId = appointment.PsychopedagogistId,
                 Activity = appointment.Activity,
                 CauseDescription = appointment.CauseDescription,
                 Resolution = report.Resolution,

@@ -14,11 +14,17 @@ public class Appointment: EntityBase
     [DataType(DataType.Time)]
     [Required]
     public DateTime End { get; set; }
+    [StringLength(30)]
+    [Required]
+    public string Activity { get; set; }
     [StringLength(140)]
     [Required] 
     public string CauseDescription { get; set; }
     [StringLength(200)]
     public string Comment { get; set; }
+    [DefaultValue(true)]
+    [Required] 
+    public bool Virtual { get; set; }
     [DefaultValue(false)]
     [Required] 
     public bool Reminder { get; set; }

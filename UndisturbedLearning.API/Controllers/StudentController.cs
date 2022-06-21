@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UndisturbedLearning.DataAccess;
 using UndisturbedLearning.Entities;
-using UndisturbedLearning.Dto;
 using UndisturbedLearning.Dto.Request;
 using UndisturbedLearning.Dto.Response;
 
@@ -23,7 +22,6 @@ public class StudentController: ControllerBase
         {
             Id = student.Id,
             Code = student.Code,
-            Password = student.Password,
             Dni = student.Dni,
             Surname = student.Surname,
             LastName = student.LastName,
@@ -37,11 +35,12 @@ public class StudentController: ControllerBase
     private static DtoLogInResponse StudentToLogInResponse(Student student) => new DtoLogInResponse
     {
 
+        Id = student.Id,
         Code = student.Code,
-        Password = student.Password,
         Surname = student.Surname,
         LastName = student.LastName,
         Email = student.Email,
+        Undergraduate = student.Undergraduate,
     };
 
     [HttpGet]
@@ -76,7 +75,7 @@ public class StudentController: ControllerBase
         });
     }
     
-    [HttpGet("access")]
+    [HttpPost("access")]
     public async Task<ActionResult<Student>> LogIn(DtoLogIn credentials)
     {
         var student = await _context.Students.Where(s => s.Code == credentials.Username)
@@ -108,10 +107,14 @@ public class StudentController: ControllerBase
     public async Task<ActionResult> Post(DtoStudent request)
     {
         var career = _context.Careers.Where(c => c.Name == request.Career).First();
-        var campus = _context.Campuses.Where(c => c.Location == request.Campus).First();
-
         if (career == null) return BadRequest("Invalid career name");
+        
+        var campus = _context.Campuses.Where(c => c.Location == request.Campus).First();
         if (campus == null) return BadRequest("Invalid campus name");
+
+        var student = _context.Students.Where(s => s.Code == request.Code).First();
+
+        if (student != null) return BadRequest("Student already exists");
         
         var entity = new Student
         {
@@ -120,7 +123,7 @@ public class StudentController: ControllerBase
             Dni = request.Dni,
             Surname = request.Surname,
             LastName = request.LastName,
-            BirthDate = request.BirthDate,
+            BirthDate = request.BirthDate.Date,
             Email = request.Email,
             Cellphone = request.Cellphone,
             Telephone = request.Telephone,

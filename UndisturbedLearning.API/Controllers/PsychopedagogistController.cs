@@ -1,90 +1,117 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using UndisturbedLearning.DataAccess;
+using UndisturbedLearning.Dto.Request;
+using UndisturbedLearning.Dto.Response;
+using UndisturbedLearning.Entities;
+
 namespace UndisturbedLearning.API.Controllers;
 
-public class Psychopedagogist
+[ApiController]
+[Route("api/[controller]")]
+public class PsychopedagogistController : ControllerBase
 {
-    
-}
-{
-    [ApiController]
-    [Route("api/[controller]")]
-    public class PsychopedagogistController:ControllerBase
+    private readonly UndisturbedLearningDbContext _context;
+
+    public PsychopedagogistController(UndisturbedLearningDbContext context)
     {
-        private readonly UndisturbedLearningDbContext _context;
+        _context = context;
+    }
+    
+    private static DtoPsychopedagogistResponse PsychopedagogistToResponse(Psychopedagogist psychopedagogist) => new DtoPsychopedagogistResponse
+    {
+        Id = psychopedagogist.Id,
+        Code = psychopedagogist.Code,
+        Dni = psychopedagogist.Dni,
+        Surname = psychopedagogist.Surname,
+        LastName = psychopedagogist.LastName,
+        BirthDate = psychopedagogist.BirthDate,
+        Email = psychopedagogist.Email,
+        Cellphone = psychopedagogist.Cellphone,
+        Telephone = psychopedagogist.Telephone,
+        IndividualAssistance = psychopedagogist.IndividualAssistance,
+    };
 
-        public PsychopedagogistController(UndisturbedLearningDbContext context)
+    private static DtoLogInResponse StudentToLogInResponse(Psychopedagogist psychopedagogist) => new DtoLogInResponse
+    {
+
+        Code = psychopedagogist.Code,
+        Surname = psychopedagogist.Surname,
+        LastName = psychopedagogist.LastName,
+        Email = psychopedagogist.Email,
+    };
+
+    [HttpGet]
+    public async Task<ActionResult<ICollection<Psychopedagogist>>> Get()
+    {
+        ICollection<Psychopedagogist> response = await _context.Psychopedagogists.ToListAsync();
+
+        return Ok(response);
+    }
+    
+    [HttpGet("access/{code}")]
+    public async Task<ActionResult<string>> AccessUsername(string code)
+    {
+        var psychopedagogist = await _context.Students.Where(s => s.Code == code).FirstAsync();
+
+        if (psychopedagogist == null) return NotFound("Invalid student code");
+
+        return Ok(
+            new
+            {
+                Code = code
+            });
+    }
+    
+    [HttpGet("access")]
+    public async Task<ActionResult<Student>> LogIn(DtoLogIn credentials)
+    {
+        var psychopedagogist = await _context.Psychopedagogists.Where(s => s.Code == credentials.Username)
+            .Where(s => s.Password == credentials.Password).FirstAsync();
+
+        if (psychopedagogist == null) return BadRequest("Incorrect password");
+
+        return Ok(StudentToLogInResponse(psychopedagogist));
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Post(DtoPsychopedagogist request)
+    {
+        var tempProfession = new Profession
         {
-            _context = context;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<BaseResponseGeneric<ICollection<Psychopedagogist>>>> Get()
+            Id = _context.Professions.Where(c => c.Id == request.ProfessionId).First().Id,
+            Name = _context.Professions.Where(c => c.Id == request.ProfessionId).First().Name,
+            Description = _context.Professions.Where(c => c.Id == request.ProfessionId).First().Description
+        };
+        var tempCampus = new Campus
         {
-            // if (_context.Database.CanConnect())
-            // {
-            //     
-            // }
-            var response = new BaseResponseGeneric<ICollection<Psychopedagogist>>();
+            Id = _context.Campuses.Where(c => c.Id == request.CampusId).First().Id,
+            Location = _context.Campuses.Where(c => c.Id == request.CampusId).First().Location
+        };
 
-            try
-            {
-                response.Result = await _context.Psychopedagogists.ToListAsync();
-                response.Success = true;
-
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                response.Errors.Add(ex.Message);
-                return response;
-            }
-
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Post(DtoPsychopedagogist request)
+        var entity = new Psychopedagogist
         {
+            Code = request.Code,
+            Password = request.Password,
+            Dni = request.Dni,
+            Surname = request.Surname,
+            LastName = request.LastName,
+            BirthDate = request.BirthDate,
+            Email = request.Email,
+            Cellphone = request.Cellphone,
+            Telephone = request.Telephone,
+            IndividualAssistance = true,
+            CampusId = tempCampus.Id,
+            //Campus = tempCampus,
+            ProfessionId = tempProfession.Id,
+            //Profession = tempProfession
+        };
 
-            var tempProfession = new Profession
-            {
-                Id = _context.Professions.Where(c => c.Name == request.Profession).FirstOrDefault<Profession>().Id,
-                Name = _context.Professions.Where(c => c.Name == request.Profession).FirstOrDefault<Profession>().Name,
-                Description = _context.Professions.Where(c => c.Name == request.Profession).FirstOrDefault<Profession>().Description
-                //Id = 1,
-                //Name = "Mecatronica",
-                //Description = "Carrera de Mecatronica"
-            };
-            var tempCampus = new Campus
-            {
-                Id = _context.Campuses.Where(c => c.Location == request.Campus).FirstOrDefault<Campus>().Id,
-                Location = _context.Campuses.Where(c => c.Location == request.Campus).FirstOrDefault().Location
-                //Id = 1,
-                //Location = "SanMiguel"
-            };
+        _context.Psychopedagogists.Add(entity);
+        await _context.SaveChangesAsync();
 
-            var entity = new Psychopedagogist
-            {
-                Code = request.Code,
-                Password = request.Password,
-                Dni = request.Dni,
-                Surname = request.Surname,
-                LastName = request.LastName,
-                BirthDate = request.BirthDate,
-                Email = request.Email,
-                Cellphone = request.Cellphone,
-                Telephone = request.Telephone,
-                IndividualAssistance = true,
-                CampusId = tempCampus.Id,
-                //Campus = tempCampus,
-                ProfessionId = tempProfession.Id,
-                //Profession = tempProfession
-            };
+        HttpContext.Response.Headers.Add("location", $"/api/psychopedagogist/{entity.Id}");
 
-            _context.Psychopedagogists.Add(entity);
-            await _context.SaveChangesAsync();
-
-            HttpContext.Response.Headers.Add("location", $"/api/psychopedagogist/{entity.Id}");
-
-            return Ok();
-        }
+        return Ok();
     }
 }

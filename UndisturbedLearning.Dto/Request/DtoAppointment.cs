@@ -9,11 +9,12 @@ namespace UndisturbedLearning.Dto.Request;
 
 public class DtoAppointment
 {
-   
-    [DataType(DataType.DateTime)]
-    public DateTime StartTime { get; set; }
-    [DataType(DataType.DateTime)]
-    public DateTime EndTime { get; set; }
+    [DataType(DataType.Date)]
+    public DateTime Day { get; set; }
+    [DataType(DataType.Time)]
+    public DateTime Start { get; set; }
+    [DataType(DataType.Time)]
+    public DateTime End { get; set; }
 
 
    

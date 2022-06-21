@@ -55,6 +55,9 @@ namespace UndisturbedLearning.DataAccess.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<DateTime>("Day")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("End")
                         .HasColumnType("datetime2");
 

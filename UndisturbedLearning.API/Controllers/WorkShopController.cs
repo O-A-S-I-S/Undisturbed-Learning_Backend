@@ -20,6 +20,7 @@ public class WorkShopController : ControllerBase
     }
     private static DtoWorkshopResponse WorkshopToResponse(Workshop workshop) => new DtoWorkshopResponse
     {
+        Id = workshop.Id,
         Start = workshop.Start,
         End = workshop.End,
         Title = workshop.Title,
@@ -65,7 +66,7 @@ public class WorkShopController : ControllerBase
             Brief=request.Brief,
             Text=request.Text,
             Comment=request.Comment,
-            Reminder=request.Reminder,
+            Reminder=true,
             PsychopedagogistId=_context.Psychopedagogists.Where(p=>p.Code==request.Psychopedagogist).FirstOrDefault().Id,
      
 
@@ -83,23 +84,27 @@ public class WorkShopController : ControllerBase
         return Ok();
     }
     [HttpGet]
-    [Route("psychopedagogist/{code}")]
-    public async Task<ActionResult<BaseResponseGeneric<ICollection<DtoWorkshopResponse>>>> GetWorkshopByPsychopedagogistId(string code)
+    [Route("psychopedagogist/{id}")]
+    public async Task<ActionResult<BaseResponseGeneric<ICollection<DtoWorkshopResponse>>>> GetWorkshopByPsychopedagogistId(int id)
     {
-        var entity = await _context.Workshops.Select(w => WorkshopToResponse(w)).ToListAsync();
+        var entity = await _context.Psychopedagogists.FindAsync(id);
+        if (entity == null) return NotFound("No se encontró el registro");
+        var response = new BaseResponseGeneric<ICollection<DtoWorkshopResponse>>();
+        var works = await _context.Workshops.Select(w => WorkshopToResponse(w)).ToListAsync();
+        //var entity = await _context.Workshops.Select(w => WorkshopToResponse(w)).ToListAsync();
         var lista = new List<DtoWorkshopResponse>();
-        var id = _context.Psychopedagogists.Where(p => p.Code == code).FirstOrDefault().Id;
-        for (int i = 0; i < entity.Count; i++)
+        //var id = _context.Psychopedagogists.Where(p => p.Code == code).FirstOrDefault().Id;
+        for (int i = 0; i < works.Count; i++)
         {
-            var workshop = entity[i];
+            var workshop = works[i];
             if (workshop.PsychopedagogistId == id) lista.Add(workshop);
         }
 
 
-        if (lista == null)
-        {
-            return NotFound("No se encontró el registro");
-        }
+        //if (lista == null)
+        //{
+        //    return NotFound("No se encontró el registro");
+        //}
 
         return Ok(lista);
 

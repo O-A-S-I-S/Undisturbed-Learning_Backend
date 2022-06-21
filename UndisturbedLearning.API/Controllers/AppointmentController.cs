@@ -17,6 +17,7 @@ public class AppointmentController : ControllerBase
     private static DtoAppointmentResponse AppointmentToResponse(Appointment appointment) => new DtoAppointmentResponse
     {
         Id=appointment.Id,
+        Day=appointment.Day,
         Start=appointment.Start,
         End =appointment.End,
         CauseDescription=appointment.CauseDescription,
@@ -83,8 +84,9 @@ public class AppointmentController : ControllerBase
        
         var entity = new Appointment
         {
-            Start = request.StartTime,
-            End = request.EndTime,
+            Day=request.Day,
+            Start = request.Start,
+            End = request.End,
             CauseDescription = request.CauseDescription,
             Comment = "",
             Reminder =true,

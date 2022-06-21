@@ -58,6 +58,9 @@ public class WorkShopController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Post(DtoWorkshop request)
     {
+        var pId = await _context.Psychopedagogists.FindAsync(request.Psychopedagogist);
+        if(pId == null) return NotFound("No se encontró al profesional");
+
         var entity = new Workshop
         {
             Start=request.StartTime,
@@ -67,7 +70,8 @@ public class WorkShopController : ControllerBase
             Text=request.Text,
             Comment=request.Comment,
             Reminder=true,
-            PsychopedagogistId=_context.Psychopedagogists.Where(p=>p.Code==request.Psychopedagogist).FirstOrDefault().Id,
+            //PsychopedagogistId=_context.Psychopedagogists.Where(p=>p.Code==request.Psychopedagogist).FirstOrDefault().Id,
+            PsychopedagogistId=request.Psychopedagogist
      
 
 

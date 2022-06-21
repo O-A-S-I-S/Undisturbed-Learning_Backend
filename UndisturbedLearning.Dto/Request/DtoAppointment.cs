@@ -22,6 +22,6 @@ public class DtoAppointment
     //public string Comment { get; set; }
     //public bool Reminder { get; set; }
     //public int Rating{ get; set; }
-    public string Psychopedagogist { get; set; }
-    public string Student { get; set; }
+    public int Psychopedagogist { get; set; }
+    public int Student { get; set; }
 }

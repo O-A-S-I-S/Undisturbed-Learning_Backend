@@ -81,7 +81,10 @@ public class AppointmentController : ControllerBase
     public async Task<ActionResult> Post(DtoAppointment request)
     {
         
-       
+        var sId = await _context.Students.FindAsync(request.Student);
+        if(sId==null) return NotFound("No se encontró al estudiante");
+        var pId = await _context.Psychopedagogists.FindAsync(request.Psychopedagogist);
+        if (pId == null)  return NotFound("No se encontró al profesional");
         var entity = new Appointment
         {
             Day=request.Day,
@@ -91,8 +94,10 @@ public class AppointmentController : ControllerBase
             Comment = "",
             Reminder =true,
             Rating = 0,
-            PsychopedagogistId = _context.Psychopedagogists.Where(c => c.Code == request.Psychopedagogist).FirstOrDefault().Id,
-            StudentId = _context.Students.Where(c => c.Code == request.Student).FirstOrDefault().Id,
+            //PsychopedagogistId = _context.Psychopedagogists.Where(c => c.Code == request.Psychopedagogist).FirstOrDefault().Id,
+            //StudentId = _context.Students.Where(c => c.Code == request.Student).FirstOrDefault().Id,
+            PsychopedagogistId=request.Psychopedagogist,
+            StudentId=request.Student
             
 
         };

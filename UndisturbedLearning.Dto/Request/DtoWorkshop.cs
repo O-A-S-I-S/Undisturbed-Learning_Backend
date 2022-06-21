@@ -19,5 +19,5 @@ public class DtoWorkshop
     public string Text { get; set; }
     public string Comment { get; set; }
     //public bool Reminder { get; set; }
-    public string Psychopedagogist { get; set; }
+    public int Psychopedagogist { get; set; }
 }

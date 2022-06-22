@@ -8,21 +8,21 @@ namespace UndisturbedLearning.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CampusController : ControllerBase
+public class ActivityController: ControllerBase
 {
     private readonly UndisturbedLearningDbContext _context;
 
-    public CampusController(UndisturbedLearningDbContext context)
+    public ActivityController(UndisturbedLearningDbContext context)
     {
         _context = context;
     }
 
     [HttpGet]
-    public async Task<ActionResult<ICollection<Campus>>> Get()
+    public async Task<ActionResult<ICollection<Activity>>> Get()
     {
-        ICollection<Campus> response;
+        ICollection<Activity> response;
 
-        response = await _context.Campuses.ToListAsync();
+        response = await _context.Activities.ToListAsync();
 
 
         return Ok(response);
@@ -30,9 +30,9 @@ public class CampusController : ControllerBase
 
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Campus>> Get(int id)
+    public async Task<ActionResult<Activity>> Get(int id)
     {
-        var entity = await _context.Campuses.FindAsync(id);
+        var entity = await _context.Activities.FindAsync(id);
         if (entity == null)
         {
             return NotFound("Invalid id.");
@@ -43,30 +43,30 @@ public class CampusController : ControllerBase
 
 
     [HttpPost]
-    public async Task<ActionResult> Post(DtoCampus request)
+    public async Task<ActionResult> Post(DtoActivity request)
     {
-        var entity = new Campus
+        var entity = new Activity
         {
-            Location = request.Location
+            Name = request.Name
         };
 
-        _context.Campuses.Add(entity);
+        _context.Activities.Add(entity);
         await _context.SaveChangesAsync();
 
-        HttpContext.Response.Headers.Add("location", $"/api/campus/{entity.Id}");
+        HttpContext.Response.Headers.Add("Name", $"/api/Activity/{entity.Id}");
 
         return Ok();
     }
 
 
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> Put(int id, DtoCampus request)
+    public async Task<ActionResult> Put(int id, DtoActivity request)
     {
-        var entity = await _context.Campuses.FindAsync(id);
+        var entity = await _context.Activities.FindAsync(id);
 
         if (entity == null) return NotFound();
 
-        entity.Location = request.Location;
+        entity.Name = request.Name;
 
         _context.Entry(entity).State = EntityState.Modified;
         await _context.SaveChangesAsync();

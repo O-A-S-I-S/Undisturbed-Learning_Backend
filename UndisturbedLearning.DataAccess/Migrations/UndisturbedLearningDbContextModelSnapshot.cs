@@ -37,6 +37,24 @@ namespace UndisturbedLearning.DataAccess.Migrations
                     b.ToTable("StudentWorkshop");
                 });
 
+            modelBuilder.Entity("UndisturbedLearning.Entities.Activity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Activities");
+                });
+
             modelBuilder.Entity("UndisturbedLearning.Entities.Appointment", b =>
                 {
                     b.Property<int>("Id")
@@ -45,10 +63,13 @@ namespace UndisturbedLearning.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Activity")
+                    b.Property<int>("ActivityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Cause")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("CauseDescription")
                         .IsRequired()
@@ -82,6 +103,8 @@ namespace UndisturbedLearning.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ActivityId");
 
                     b.HasIndex("PsychopedagogistId");
 
@@ -387,6 +410,12 @@ namespace UndisturbedLearning.DataAccess.Migrations
 
             modelBuilder.Entity("UndisturbedLearning.Entities.Appointment", b =>
                 {
+                    b.HasOne("UndisturbedLearning.Entities.Activity", "Activity")
+                        .WithMany()
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("UndisturbedLearning.Entities.Psychopedagogist", "Psychopedagogist")
                         .WithMany("Appointments")
                         .HasForeignKey("PsychopedagogistId")
@@ -398,6 +427,8 @@ namespace UndisturbedLearning.DataAccess.Migrations
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Activity");
 
                     b.Navigation("Psychopedagogist");
 

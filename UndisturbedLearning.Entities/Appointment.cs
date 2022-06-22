@@ -11,9 +11,9 @@ public class Appointment: EntityBase
     public DateTime Start { get; set; }
     [Required]
     public DateTime End { get; set; }
-    [StringLength(30)]
-    [Required]
-    public string Activity { get; set; }
+    [StringLength(40)]
+    [Required] 
+    public string Cause { get; set; }
     [StringLength(140)]
     [Required] 
     public string CauseDescription { get; set; }
@@ -27,6 +27,10 @@ public class Appointment: EntityBase
     public bool Reminder { get; set; }
     [Range(0, 10)]
     public int Rating { get; set; }
+    
+    [Required] 
+    public int ActivityId { get; set; }
+    public Activity Activity { get; set; }
     
     [Required]
     public int PsychopedagogistId { get; set; }

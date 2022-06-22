@@ -35,7 +35,7 @@ public class CarreerController : ControllerBase
         var entity = await _context.Careers.FindAsync(id);
         if (entity == null)
         {
-            return NotFound("No se encontró el registro");
+            return NotFound("Invalid id.");
         }
 
         return Ok(entity);

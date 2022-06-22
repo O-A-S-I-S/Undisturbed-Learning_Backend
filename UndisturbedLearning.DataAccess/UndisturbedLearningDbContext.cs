@@ -39,4 +39,5 @@ public class UndisturbedLearningDbContext : DbContext
     public DbSet<Report> Reports { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
     public DbSet<Workshop> Workshops { get; set; }
+    public DbSet<Activity> Activities { get; set; }
 }

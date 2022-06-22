@@ -8,6 +8,7 @@ public class DtoAppointmentResponse
     public int PsychopedagogistId { get; set; }
     public string Psychopedagogist { get; set; }
     public string Activity { get; set; }
+    public string Cause { get; set; }
     public string CauseDescription { get; set; }
     public bool Virtual { get; set; }
     public string Date { get; set; }

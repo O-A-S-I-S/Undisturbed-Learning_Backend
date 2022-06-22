@@ -34,7 +34,7 @@ public class PsychopedagogistController : ControllerBase
 
     private static DtoLogInResponse PsychopedagogistToLogInResponse(Psychopedagogist psychopedagogist) => new DtoLogInResponse
     {
-
+        Id = psychopedagogist.Id,
         Code = psychopedagogist.Code,
         Surname = psychopedagogist.Surname,
         LastName = psychopedagogist.LastName,

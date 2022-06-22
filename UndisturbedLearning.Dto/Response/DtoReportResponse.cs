@@ -7,6 +7,7 @@ public class DtoReportResponse
 {
     public int Id { get; set; }
     public int StudentId { get; set; }
+    public string Student { get; set; }
     public int PsychopedagogistId { get; set; }
     public int AppointmentId { get; set; }
     public string Activity { get; set; }

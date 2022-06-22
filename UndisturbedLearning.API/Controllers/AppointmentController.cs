@@ -33,13 +33,14 @@ public class AppointmentController : ControllerBase
         ICollection<DtoAppointmentResponse> appointments = await _context.Appointments.Join(_context.Psychopedagogists, 
             appointment => appointment.PsychopedagogistId, 
             psychopedagogist => psychopedagogist.Id,
-            (appointment, psychopedagogist) => new DtoAppointmentResponse
+            (appointment, psychopedagogist) => new
             {
                 Id = appointment.Id,
                 StudentId = appointment.StudentId,
                 PsychopedagogistId = appointment.PsychopedagogistId,
                 Psychopedagogist = psychopedagogist.Surname + " " + psychopedagogist.LastName,
-                Activity = appointment.Activity,
+                ActivityId = appointment.ActivityId,
+                Cause = appointment.Cause,
                 CauseDescription = appointment.CauseDescription,
                 Virtual = appointment.Virtual,
                 Date = appointment.Date,
@@ -48,7 +49,25 @@ public class AppointmentController : ControllerBase
                 Comment = appointment.Comment,
                 Reminder = appointment.Reminder,
                 Rating = appointment.Rating,
-            }).Where(a => a.PsychopedagogistId == id).ToListAsync();
+            }).Join(_context.Activities, appointment => appointment.ActivityId, activity => activity.Id,
+            (appointment, activity) => new DtoAppointmentResponse
+            {
+                Id = appointment.Id,
+                StudentId = appointment.StudentId,
+                PsychopedagogistId = appointment.PsychopedagogistId,
+                Psychopedagogist = appointment.Psychopedagogist,
+                Activity = activity.Name,
+                Cause = appointment.Cause,
+                CauseDescription = appointment.CauseDescription,
+                Virtual = appointment.Virtual,
+                Date = appointment.Date,
+                StartTime = appointment.StartTime,
+                EndTime = appointment.EndTime,
+                Comment = appointment.Comment,
+                Reminder = appointment.Reminder,
+                Rating = appointment.Rating,
+            }
+            ).Where(a => a.StudentId == id).ToListAsync();
         
         return Ok(appointments);
     }
@@ -59,13 +78,32 @@ public class AppointmentController : ControllerBase
         ICollection<DtoAppointmentResponse> appointments = await _context.Appointments.Join(_context.Students, 
             appointment => appointment.PsychopedagogistId, 
             student => student.Id,
-            (appointment, student) => new DtoAppointmentResponse
+            (appointment, student) => new 
             {
                 Id = appointment.Id,
                 StudentId = appointment.StudentId,
                 Student = student.Surname + " " +  student.LastName,
                 PsychopedagogistId = appointment.PsychopedagogistId,
-                Activity = appointment.Activity,
+                ActivityId = appointment.ActivityId,
+                Cause = appointment.Cause,
+                CauseDescription = appointment.CauseDescription,
+                Virtual = appointment.Virtual,
+                Date = appointment.Date,
+                StartTime = appointment.StartTime,
+                EndTime = appointment.EndTime,
+                Comment = appointment.Comment,
+                Reminder = appointment.Reminder,
+                Rating = appointment.Rating,
+            }).Join(_context.Activities, appointment => appointment.ActivityId, 
+            activity => activity.Id,
+            (appointment, activity) => new DtoAppointmentResponse
+            {
+                Id = appointment.Id,
+                StudentId = appointment.StudentId,
+                Student = appointment.Student,
+                PsychopedagogistId = appointment.PsychopedagogistId,
+                Activity = activity.Name,
+                Cause = appointment.Cause,
                 CauseDescription = appointment.CauseDescription,
                 Virtual = appointment.Virtual,
                 Date = appointment.Date,
@@ -93,15 +131,20 @@ public class AppointmentController : ControllerBase
 
         if (psychopedagogist == null) return BadRequest("The psychopedagogist doesn't exist.");
 
+        var activity = await _context.Activities.Where(a => a.Name == request.Activity).FirstAsync();
+
+        if (activity == null) return BadRequest("The activity name provided is not valid.");
+
         var appointment = new Appointment
         {
             Start = request.Start,
             End = request.End,
-            Activity = request.Activity,
+            Cause = request.Cause,
             CauseDescription = request.CauseDescription,
             Comment = "",
             Virtual = request.Virtual,
             Reminder = request.Reminder,
+            ActivityId = activity.Id,
             PsychopedagogistId = psychopedagogist.Id,
             StudentId = student.Id,
         };

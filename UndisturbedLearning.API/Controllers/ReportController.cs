@@ -52,13 +52,36 @@ public class ReportController:ControllerBase
     [HttpGet("student/{id:int}")]
     public async Task<ActionResult<ICollection<Report>>> GetByStudentId(int id)
     {
-        ICollection<DtoReportResponse> reports = await _context.Reports.Join(_context.Appointments, report => report.AppointmentId,
-            appointment => appointment.Id, (report, appointment) => new DtoReportResponse
+        ICollection<DtoReportResponse> reports = await _context.Reports.Join(_context.Appointments,
+            report => report.AppointmentId,
+            appointment => appointment.Id, (report, appointment) => new
             {
                 Id = report.Id,
                 StudentId = appointment.StudentId,
-                Activity = appointment.Activity,
+                ActivityId = appointment.ActivityId,
                 CauseDescription = appointment.CauseDescription,
+                Resolution = report.Resolution,
+                Brief = report.Brief,
+                Text = report.Text,
+            }).Join(_context.Activities, report => report.ActivityId, activity => activity.Id,
+            (report, activity) => new 
+            {
+                Id = report.Id,
+                StudentId = report.StudentId,
+                Activity = activity.Name,
+                CauseDescription = report.CauseDescription,
+                Resolution = report.Resolution,
+                Brief = report.Brief,
+                Text = report.Text,
+                
+            }).Join(_context.Students, report => report.StudentId, student => student.Id,
+            (report, student) => new DtoReportResponse
+            {
+                Id = report.Id,
+                StudentId = report.StudentId,
+                Student = student.Surname + " " + student.LastName,
+                Activity = report.Activity,
+                CauseDescription = report.CauseDescription,
                 Resolution = report.Resolution,
                 Brief = report.Brief,
                 Text = report.Text,
@@ -71,12 +94,37 @@ public class ReportController:ControllerBase
     public async Task<ActionResult<ICollection<Report>>> GetByPsychopedagogistId(int id)
     {
         ICollection<DtoReportResponse> reports = await _context.Reports.Join(_context.Appointments, report => report.AppointmentId,
-            appointment => appointment.Id, (report, appointment) => new DtoReportResponse
+            appointment => appointment.Id, (report, appointment) => new
             {
                 Id = report.Id,
                 StudentId = appointment.StudentId,
-                Activity = appointment.Activity,
+                PsychopedagogistId = appointment.PsychopedagogistId,
+                ActivityId = appointment.ActivityId,
                 CauseDescription = appointment.CauseDescription,
+                Resolution = report.Resolution,
+                Brief = report.Brief,
+                Text = report.Text,
+            }).Join(_context.Activities, report => report.ActivityId, activity => activity.Id,
+            (report, activity) => new 
+            {
+                Id = report.Id,
+                StudentId = report.StudentId,
+                PsychopedagogistId = report.PsychopedagogistId,
+                Activity = activity.Name,
+                CauseDescription = report.CauseDescription,
+                Resolution = report.Resolution,
+                Brief = report.Brief,
+                Text = report.Text,
+                
+            }).Join(_context.Students, report => report.StudentId, student => student.Id,
+            (report, student) => new DtoReportResponse
+            {
+                Id = report.Id,
+                StudentId = report.StudentId,
+                Student = student.Surname + " " + student.LastName,
+                PsychopedagogistId = report.PsychopedagogistId,
+                Activity = report.Activity,
+                CauseDescription = report.CauseDescription,
                 Resolution = report.Resolution,
                 Brief = report.Brief,
                 Text = report.Text,
@@ -88,16 +136,20 @@ public class ReportController:ControllerBase
     [HttpPost("{id:int}")]
     public async Task<ActionResult> Post(int id, DtoReport request)
     {
-        var tempAppointment = await _context.Appointments.FindAsync(id);
+        var appointment = await _context.Appointments.FindAsync(id);
 
-        if (tempAppointment == null) return BadRequest("The associated appointment doesn't exist.");
+        if (appointment == null) return BadRequest("The associated appointment doesn't exist.");
+
+        var reports = await _context.Reports.Where(r => r.AppointmentId == appointment.Id).ToListAsync();
+
+        if (reports.Count<Report>() > 0) return BadRequest("A report has already been filed for the appointment.");
 
         var entity = new Report
         {
             Resolution = request.Resolution,
             Brief = request.Brief,
             Text = request.Text,
-            AppointmentId = tempAppointment.Id,
+            AppointmentId = id,
         };
 
         _context.Reports.Add(entity);

@@ -12,6 +12,9 @@ public class DtoAppointment
     [StringLength(30)]
     [Required]
     public string Activity { get; set; }
+    [StringLength(40)]
+    [Required] 
+    public string Cause { get; set; }
     [StringLength(140)]
     [Required] 
     public string CauseDescription { get; set; }

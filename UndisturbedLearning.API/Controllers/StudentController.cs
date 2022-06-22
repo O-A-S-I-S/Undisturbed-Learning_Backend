@@ -40,7 +40,6 @@ public class StudentController: ControllerBase
         Surname = student.Surname,
         LastName = student.LastName,
         Email = student.Email,
-        Undergraduate = student.Undergraduate,
     };
 
     [HttpGet]

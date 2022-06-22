@@ -100,6 +100,7 @@ public class AppointmentController : ControllerBase
             Activity = request.Activity,
             CauseDescription = request.CauseDescription,
             Comment = "",
+            Virtual = request.Virtual,
             Reminder = request.Reminder,
             PsychopedagogistId = psychopedagogist.Id,
             StudentId = student.Id,

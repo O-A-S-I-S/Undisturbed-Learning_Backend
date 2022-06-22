@@ -32,7 +32,7 @@ public class PsychopedagogistController : ControllerBase
         IndividualAssistance = psychopedagogist.IndividualAssistance,
     };
 
-    private static DtoLogInResponse StudentToLogInResponse(Psychopedagogist psychopedagogist) => new DtoLogInResponse
+    private static DtoLogInResponse PsychopedagogistToLogInResponse(Psychopedagogist psychopedagogist) => new DtoLogInResponse
     {
 
         Code = psychopedagogist.Code,
@@ -44,7 +44,7 @@ public class PsychopedagogistController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<ICollection<Psychopedagogist>>> Get()
     {
-        ICollection<Psychopedagogist> response = await _context.Psychopedagogists.ToListAsync();
+        ICollection<DtoPsychopedagogistResponse> response = await _context.Psychopedagogists.Select(p => PsychopedagogistToResponse(p)).ToListAsync();
 
         return Ok(response);
     }
@@ -52,7 +52,7 @@ public class PsychopedagogistController : ControllerBase
     [HttpGet("access/{code}")]
     public async Task<ActionResult<string>> AccessUsername(string code)
     {
-        var psychopedagogist = await _context.Students.Where(s => s.Code == code).FirstAsync();
+        var psychopedagogist = await _context.Psychopedagogists.Where(s => s.Code == code).FirstAsync();
 
         if (psychopedagogist == null) return NotFound("Invalid student code");
 
@@ -63,15 +63,15 @@ public class PsychopedagogistController : ControllerBase
             });
     }
     
-    [HttpGet("access")]
+    [HttpPost("access")]
     public async Task<ActionResult<Student>> LogIn(DtoLogIn credentials)
     {
-        var psychopedagogist = await _context.Psychopedagogists.Where(s => s.Code == credentials.Username)
-            .Where(s => s.Password == credentials.Password).FirstAsync();
+        var psychopedagogist = await _context.Psychopedagogists.Where(p => p.Code == credentials.Username)
+            .Where(p => p.Password == credentials.Password).FirstAsync();
 
         if (psychopedagogist == null) return BadRequest("Incorrect password");
 
-        return Ok(StudentToLogInResponse(psychopedagogist));
+        return Ok(PsychopedagogistToLogInResponse(psychopedagogist));
     }
 
     [HttpPost]

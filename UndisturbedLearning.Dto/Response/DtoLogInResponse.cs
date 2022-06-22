@@ -7,5 +7,4 @@ public class DtoLogInResponse
    public string Surname { get; set; }
    public string LastName { get; set; }
    public string Email { get; set; }
-   public bool Undergraduate { get; set; }
 }

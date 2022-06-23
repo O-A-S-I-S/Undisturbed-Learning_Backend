@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UndisturbedLearning.DataAccess;
 using UndisturbedLearning.Dto.Request;
 using UndisturbedLearning.Dto.Response;
@@ -30,7 +31,8 @@ public class AppointmentController : ControllerBase
     [HttpGet("student/{id:int}")]
     public async Task<ActionResult<ICollection<Appointment>>> GetByStudentId(int id)
     {
-        ICollection<DtoAppointmentResponse> appointments = await _context.Appointments.Join(_context.Psychopedagogists, 
+        ICollection<DtoAppointmentResponse> appointments = await _context.Appointments
+            .Join(_context.Psychopedagogists, 
             appointment => appointment.PsychopedagogistId, 
             psychopedagogist => psychopedagogist.Id,
             (appointment, psychopedagogist) => new
@@ -43,13 +45,17 @@ public class AppointmentController : ControllerBase
                 Cause = appointment.Cause,
                 CauseDescription = appointment.CauseDescription,
                 Virtual = appointment.Virtual,
+                Start = appointment.Start,
                 Date = appointment.Date,
                 StartTime = appointment.StartTime,
                 EndTime = appointment.EndTime,
                 Comment = appointment.Comment,
                 Reminder = appointment.Reminder,
                 Rating = appointment.Rating,
-            }).Join(_context.Activities, appointment => appointment.ActivityId, activity => activity.Id,
+            })
+            .Where(a => a.StudentId == id)
+            .OrderByDescending(a => a.Start)
+            .Join(_context.Activities, appointment => appointment.ActivityId, activity => activity.Id,
             (appointment, activity) => new DtoAppointmentResponse
             {
                 Id = appointment.Id,
@@ -67,7 +73,8 @@ public class AppointmentController : ControllerBase
                 Reminder = appointment.Reminder,
                 Rating = appointment.Rating,
             }
-            ).Where(a => a.StudentId == id).ToListAsync();
+            )
+            .ToListAsync();
         
         return Ok(appointments);
     }
@@ -75,7 +82,8 @@ public class AppointmentController : ControllerBase
     [HttpGet("psychopedagogist/{id:int}")]
     public async Task<ActionResult<ICollection<Appointment>>> GetByPsychopedagogistId(int id)
     {
-        ICollection<DtoAppointmentResponse> appointments = await _context.Appointments.Join(_context.Students, 
+        ICollection<DtoAppointmentResponse> appointments = await _context.Appointments
+            .Join(_context.Students, 
             appointment => appointment.PsychopedagogistId, 
             student => student.Id,
             (appointment, student) => new 
@@ -88,13 +96,17 @@ public class AppointmentController : ControllerBase
                 Cause = appointment.Cause,
                 CauseDescription = appointment.CauseDescription,
                 Virtual = appointment.Virtual,
+                Start = appointment.Start,
                 Date = appointment.Date,
                 StartTime = appointment.StartTime,
                 EndTime = appointment.EndTime,
                 Comment = appointment.Comment,
                 Reminder = appointment.Reminder,
                 Rating = appointment.Rating,
-            }).Join(_context.Activities, appointment => appointment.ActivityId, 
+            })
+            .Where(a => a.PsychopedagogistId == id)
+            .OrderByDescending(a => a.Start)
+            .Join(_context.Activities, appointment => appointment.ActivityId, 
             activity => activity.Id,
             (appointment, activity) => new DtoAppointmentResponse
             {
@@ -112,7 +124,8 @@ public class AppointmentController : ControllerBase
                 Comment = appointment.Comment,
                 Reminder = appointment.Reminder,
                 Rating = appointment.Rating,
-            }).Where(a => a.PsychopedagogistId == id).ToListAsync();
+            })
+            .ToListAsync();
         
         return Ok(appointments);
     }
@@ -155,5 +168,58 @@ public class AppointmentController : ControllerBase
         HttpContext.Response.Headers.Add("location", $"api/appointment/{appointment.Id}");
 
         return Ok();
+    }
+    
+    [HttpPut("comment/{id:int}")]
+    public async Task<ActionResult> Put(int id, string comment)
+    {
+        var entity = await _context.Appointments.FindAsync(id);
+
+        if (entity == null) return NotFound();
+
+        entity.Comment = comment;
+
+        _context.Entry(entity).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            Id = entity.Id,
+            Comment = entity.Comment,
+        });
+    }
+    
+    [HttpPut("rating/{id:int}")]
+    public async Task<ActionResult> Put(int id, int rating)
+    {
+        var entity = await _context.Appointments.FindAsync(id);
+
+        if (entity == null) return NotFound();
+
+        entity.Rating = rating;
+
+        _context.Entry(entity).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            Id = id
+        });
+    }
+    
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        //_context.Entry(new Appointment
+        //{
+        //    Id = id
+        //}).State = EntityState.Deleted;
+        //await  _context.SaveChangesAsync();
+        //return null;
+        var entity = await _context.Appointments.FindAsync(id);
+        if (entity == null) return NotFound();
+        _context.Entry(entity).State = EntityState.Deleted;
+        await _context.SaveChangesAsync();
+        return Ok(id);
     }
 }

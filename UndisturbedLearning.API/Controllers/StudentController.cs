@@ -1,5 +1,7 @@
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using UndisturbedLearning.DataAccess;
 using UndisturbedLearning.Entities;
 using UndisturbedLearning.Dto.Request;
@@ -16,6 +18,12 @@ public class StudentController: ControllerBase
     public StudentController(UndisturbedLearningDbContext context)
     {
         _context = context;
+    }
+
+    public class NamePart
+    {
+        public string Surname { get; set; }
+        public string LastName { get; set; }
     }
     
     private static DtoStudentResponse StudentToResponse(Student student) => new DtoStudentResponse
@@ -42,6 +50,11 @@ public class StudentController: ControllerBase
         Email = student.Email,
     };
 
+    private static bool MatchName(string name, string part)
+    {
+        return Regex.IsMatch(name, part);
+    } 
+
     [HttpGet]
     public async Task<ActionResult<ICollection<Student>>> Get()
     {
@@ -50,7 +63,7 @@ public class StudentController: ControllerBase
         return Ok(response);
     }
     
-    [HttpGet("{id:int}")]
+    [HttpGet("id/{id:int}")]
     public async Task<ActionResult<string>> GetById(int id)
     {
         var student = await _context.Students.Where(s => s.Id == id).FirstAsync();
@@ -58,6 +71,28 @@ public class StudentController: ControllerBase
         if (student == null) return NotFound("There is no student with such id");
 
         return Ok(StudentToResponse(student));
+    }
+    
+    [HttpGet("code/{code}")]
+    public async Task<ActionResult<string>> GetByCode(string code)
+    {
+        var student = await _context.Students.Where(s => s.Code == code).FirstAsync();
+
+        if (student == null) return NotFound("There is no student with such code");
+
+        return Ok(StudentToResponse(student));
+    }
+    
+    [HttpPost("name")]
+    public async Task<ActionResult<string>> GetByName(NamePart part)
+    {
+        
+        var students = await _context.Students.Where(s => s.Surname.Contains(part.Surname))
+            .Where(s => s.LastName.Contains(part.LastName)).Select(s => StudentToResponse(s)).ToListAsync();
+
+        if (students.Count() == 0) return NotFound("No matches for the student name provided.");
+
+        return Ok(students);
     }
 
     [HttpGet("access/{code}")]
@@ -105,13 +140,13 @@ public class StudentController: ControllerBase
     [HttpPost]
     public async Task<ActionResult> Post(DtoStudent request)
     {
-        var career = _context.Careers.Where(c => c.Name == request.Career).First();
+        var career = await _context.Careers.Where(c => c.Name == request.Career).FirstAsync();
         if (career == null) return BadRequest("Invalid career name");
         
-        var campus = _context.Campuses.Where(c => c.Location == request.Campus).First();
+        var campus = await _context.Campuses.Where(c => c.Location == request.Campus).FirstAsync();
         if (campus == null) return BadRequest("Invalid campus name");
 
-        var student = _context.Students.Where(s => s.Code == request.Code).First();
+        var student = await _context.Students.Where(s => s.Code == request.Code).FirstOrDefaultAsync();
 
         if (student != null) return BadRequest("Student already exists");
         

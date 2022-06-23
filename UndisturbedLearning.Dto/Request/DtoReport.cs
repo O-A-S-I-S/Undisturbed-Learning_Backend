@@ -13,6 +13,4 @@ public class DtoReport
     [StringLength(500)]
     [Required]
     public string Text { get; set; }
-    [Required]
-    public int AppointmentId { get; set; }
 }

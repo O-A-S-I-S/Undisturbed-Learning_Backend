@@ -49,6 +49,16 @@ public class PsychopedagogistController : ControllerBase
         return Ok(response);
     }
     
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<string>> GetById(int id)
+    {
+        var psychopedagogist = await _context.Psychopedagogists.Where(s => s.Id == id).FirstAsync();
+
+        if (psychopedagogist == null) return NotFound("There is no psychopedagogist with such id");
+
+        return Ok(PsychopedagogistToResponse(psychopedagogist));
+    }
+    
     [HttpGet("access/{code}")]
     public async Task<ActionResult<string>> AccessUsername(string code)
     {
@@ -77,18 +87,15 @@ public class PsychopedagogistController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Post(DtoPsychopedagogist request)
     {
-        var tempProfession = new Profession
-        {
-            Id = _context.Professions.Where(c => c.Id == request.ProfessionId).First().Id,
-            Name = _context.Professions.Where(c => c.Id == request.ProfessionId).First().Name,
-            Description = _context.Professions.Where(c => c.Id == request.ProfessionId).First().Description
-        };
-        var tempCampus = new Campus
-        {
-            Id = _context.Campuses.Where(c => c.Id == request.CampusId).First().Id,
-            Location = _context.Campuses.Where(c => c.Id == request.CampusId).First().Location
-        };
+        var profession = await _context.Professions.Where(p => p.Name == request.Profession).FirstAsync();
+        if (profession == null) return BadRequest("Invalid profession name");
+        
+        var campus = await _context.Campuses.Where(c => c.Location == request.Campus).FirstAsync();
+        if (campus == null) return BadRequest("Invalid campus name");
 
+        var psychopedagogist = await _context.Psychopedagogists.Where(p => p.Code == request.Code).FirstOrDefaultAsync();
+        if (psychopedagogist != null) return BadRequest("Psychopedagogist already exists");
+        
         var entity = new Psychopedagogist
         {
             Code = request.Code,
@@ -101,10 +108,8 @@ public class PsychopedagogistController : ControllerBase
             Cellphone = request.Cellphone,
             Telephone = request.Telephone,
             IndividualAssistance = true,
-            CampusId = tempCampus.Id,
-            //Campus = tempCampus,
-            ProfessionId = tempProfession.Id,
-            //Profession = tempProfession
+            CampusId = campus.Id,
+            ProfessionId = profession.Id,
         };
 
         _context.Psychopedagogists.Add(entity);
@@ -113,5 +118,18 @@ public class PsychopedagogistController : ControllerBase
         HttpContext.Response.Headers.Add("location", $"/api/psychopedagogist/{entity.Id}");
 
         return Ok();
+    }
+    
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        var entity = await _context.Psychopedagogists.FindAsync(id);
+        
+        if (entity == null) return NotFound();
+        
+        _context.Entry(entity).State = EntityState.Deleted;
+        await _context.SaveChangesAsync();
+        
+        return Ok(id);
     }
 }

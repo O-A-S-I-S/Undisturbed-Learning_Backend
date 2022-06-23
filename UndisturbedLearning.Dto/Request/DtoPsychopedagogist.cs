@@ -31,7 +31,7 @@ public class DtoPsychopedagogist
     [Required]
     public bool IndividualAssistance { get; set; }
     [Required]
-    public int ProfessionId { get; set; }
+    public string Profession { get; set; }
     [Required]
-    public int CampusId { get; set; }
+    public string Campus { get; set; }
 }

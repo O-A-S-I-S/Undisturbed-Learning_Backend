@@ -9,10 +9,12 @@ public class DtoReportResponse
     public int StudentId { get; set; }
     public string Student { get; set; }
     public int PsychopedagogistId { get; set; }
-    public int AppointmentId { get; set; }
+    public string Psychopedagogist { get; set; }
     public string Activity { get; set; }
+    public string Cause { get; set; }
     public string CauseDescription { get; set; }
     public string Resolution { get; set; }
     public string Brief { get; set; }
     public string Text { get; set; }
+    public string Date { get; set; }
 }

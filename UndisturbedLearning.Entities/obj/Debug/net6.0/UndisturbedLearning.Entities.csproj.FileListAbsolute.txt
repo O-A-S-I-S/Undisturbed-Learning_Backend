@@ -1,0 +1,48 @@
+D:/Universidad/Ciclo2022-1/Ingenieria de Software/ULB/UndisturbedLearning.Entities/bin/Debug/net6.0/UndisturbedLearning.Entities.deps.json
+D:/Universidad/Ciclo2022-1/Ingenieria de Software/ULB/UndisturbedLearning.Entities/bin/Debug/net6.0/UndisturbedLearning.Entities.dll
+D:/Universidad/Ciclo2022-1/Ingenieria de Software/ULB/UndisturbedLearning.Entities/bin/Debug/net6.0/UndisturbedLearning.Entities.pdb
+D:/Universidad/Ciclo2022-1/Ingenieria de Software/ULB/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.csproj.AssemblyReference.cache
+D:/Universidad/Ciclo2022-1/Ingenieria de Software/ULB/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.GeneratedMSBuildEditorConfig.editorconfig
+D:/Universidad/Ciclo2022-1/Ingenieria de Software/ULB/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.AssemblyInfoInputs.cache
+D:/Universidad/Ciclo2022-1/Ingenieria de Software/ULB/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.AssemblyInfo.cs
+D:/Universidad/Ciclo2022-1/Ingenieria de Software/ULB/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.csproj.CoreCompileInputs.cache
+D:/Universidad/Ciclo2022-1/Ingenieria de Software/ULB/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.dll
+D:/Universidad/Ciclo2022-1/Ingenieria de Software/ULB/UndisturbedLearning.Entities/obj/Debug/net6.0/refint/UndisturbedLearning.Entities.dll
+D:/Universidad/Ciclo2022-1/Ingenieria de Software/ULB/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.pdb
+D:/Universidad/Ciclo2022-1/Ingenieria de Software/ULB/UndisturbedLearning.Entities/obj/Debug/net6.0/ref/UndisturbedLearning.Entities.dll
+/home/z3r0/Downloads/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/bin/Debug/net6.0/UndisturbedLearning.Entities.deps.json
+/home/z3r0/Downloads/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/bin/Debug/net6.0/UndisturbedLearning.Entities.dll
+/home/z3r0/Downloads/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/bin/Debug/net6.0/UndisturbedLearning.Entities.pdb
+/home/z3r0/Downloads/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.csproj.AssemblyReference.cache
+/home/z3r0/Downloads/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.GeneratedMSBuildEditorConfig.editorconfig
+/home/z3r0/Downloads/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.AssemblyInfoInputs.cache
+/home/z3r0/Downloads/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.AssemblyInfo.cs
+/home/z3r0/Downloads/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.csproj.CoreCompileInputs.cache
+/home/z3r0/Downloads/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.dll
+/home/z3r0/Downloads/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/refint/UndisturbedLearning.Entities.dll
+/home/z3r0/Downloads/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.pdb
+/home/z3r0/Downloads/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/ref/UndisturbedLearning.Entities.dll
+/home/z3r0/RiderProjects/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/bin/Debug/net6.0/UndisturbedLearning.Entities.deps.json
+/home/z3r0/RiderProjects/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/bin/Debug/net6.0/UndisturbedLearning.Entities.dll
+/home/z3r0/RiderProjects/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/bin/Debug/net6.0/UndisturbedLearning.Entities.pdb
+/home/z3r0/RiderProjects/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.csproj.AssemblyReference.cache
+/home/z3r0/RiderProjects/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.GeneratedMSBuildEditorConfig.editorconfig
+/home/z3r0/RiderProjects/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.AssemblyInfoInputs.cache
+/home/z3r0/RiderProjects/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.AssemblyInfo.cs
+/home/z3r0/RiderProjects/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.csproj.CoreCompileInputs.cache
+/home/z3r0/RiderProjects/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.dll
+/home/z3r0/RiderProjects/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/refint/UndisturbedLearning.Entities.dll
+/home/z3r0/RiderProjects/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.pdb
+/home/z3r0/RiderProjects/Undisturbed_Learning-Backend/UndisturbedLearning.Entities/obj/Debug/net6.0/ref/UndisturbedLearning.Entities.dll
+/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/bin/Debug/net6.0/UndisturbedLearning.Entities.deps.json
+/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/bin/Debug/net6.0/UndisturbedLearning.Entities.dll
+/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/bin/Debug/net6.0/UndisturbedLearning.Entities.pdb
+/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.csproj.AssemblyReference.cache
+/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.GeneratedMSBuildEditorConfig.editorconfig
+/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.AssemblyInfoInputs.cache
+/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.AssemblyInfo.cs
+/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.csproj.CoreCompileInputs.cache
+/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.dll
+/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/obj/Debug/net6.0/refint/UndisturbedLearning.Entities.dll
+/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/obj/Debug/net6.0/UndisturbedLearning.Entities.pdb
+/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/obj/Debug/net6.0/ref/UndisturbedLearning.Entities.dll

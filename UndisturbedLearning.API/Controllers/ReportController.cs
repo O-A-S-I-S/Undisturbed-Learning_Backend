@@ -28,9 +28,20 @@ public class ReportController:ControllerBase
         return Ok(reports);
 
     }
-
-
+    
     [HttpGet("{id:int}")]
+    public async Task<ActionResult<Report>> GetById(int id)
+    {
+        var report = await _context.Reports.Where(r => r.Id == id).FirstAsync();
+
+        if (report == null) return BadRequest("There's no report with such id.");
+
+        return Ok(report);
+
+    }
+
+
+    [HttpGet("appointment/{id:int}")]
     public ActionResult<Report> Get(int id)
     {
         //var entity = await _context.Reports.FindAsync(id);
@@ -54,7 +65,7 @@ public class ReportController:ControllerBase
                 StudentId = appointment.StudentId,
                 PsychopedagogistId = appointment.PsychopedagogistId,
                 ActivityId = appointment.ActivityId,
-                Cause = appointment.Cause,
+                CauseId = appointment.CauseId,
                 CauseDescription = appointment.CauseDescription,
                 Resolution = report.Resolution,
                 Brief = report.Brief,
@@ -71,7 +82,7 @@ public class ReportController:ControllerBase
                 StudentId = report.StudentId,
                 PsychopedagogistId = report.PsychopedagogistId,
                 Activity = activity.Name,
-                Cause = report.Cause,
+                CauseId = report.CauseId,
                 CauseDescription = report.CauseDescription,
                 Resolution = report.Resolution,
                 Brief = report.Brief,
@@ -80,20 +91,35 @@ public class ReportController:ControllerBase
                 
             })
             .Join(_context.Psychopedagogists, report => report.PsychopedagogistId, psychopedagogist => psychopedagogist.Id,
-            (report, psychopedagogist) => new DtoReportResponse
+            (report, psychopedagogist) => new 
             {
                 Id = report.Id,
                 StudentId = report.StudentId,
                 PsychopedagogistId = report.PsychopedagogistId,
                 Psychopedagogist = psychopedagogist.Surname + " " + psychopedagogist.LastName,
                 Activity = report.Activity,
-                Cause = report.Cause,
+                CauseId = report.CauseId,
                 CauseDescription = report.CauseDescription,
                 Resolution = report.Resolution,
                 Brief = report.Brief,
                 Text = report.Text,
                 Date = report.Date,
             })
+            .Join(_context.Causes, report => report.CauseId, cause => cause.Id,
+                (report, cause) => new DtoReportResponse
+                {
+                    Id = report.Id,
+                    StudentId = report.StudentId,
+                    PsychopedagogistId = report.PsychopedagogistId,
+                    Psychopedagogist = report.Psychopedagogist,
+                    Activity = report.Activity,
+                    Cause = cause.Name,
+                    CauseDescription = report.CauseDescription,
+                    Resolution = report.Resolution,
+                    Brief = report.Brief,
+                    Text = report.Text,
+                    Date = report.Date,
+                })
             .ToListAsync();
 
         return Ok(reports);
@@ -109,7 +135,7 @@ public class ReportController:ControllerBase
                 StudentId = appointment.StudentId,
                 PsychopedagogistId = appointment.PsychopedagogistId,
                 ActivityId = appointment.ActivityId,
-                Cause = appointment.Cause,
+                CauseId = appointment.CauseId,
                 CauseDescription = appointment.CauseDescription,
                 Resolution = report.Resolution,
                 Brief = report.Brief,
@@ -126,7 +152,7 @@ public class ReportController:ControllerBase
                 StudentId = report.StudentId,
                 PsychopedagogistId = report.PsychopedagogistId,
                 Activity = activity.Name,
-                Cause = report.Cause,
+                CauseId = report.CauseId,
                 CauseDescription = report.CauseDescription,
                 Resolution = report.Resolution,
                 Brief = report.Brief,
@@ -135,20 +161,35 @@ public class ReportController:ControllerBase
                 
             })
             .Join(_context.Students, report => report.StudentId, student => student.Id,
-            (report, student) => new DtoReportResponse
+            (report, student) => new
             {
                 Id = report.Id,
                 StudentId = report.StudentId,
                 Student = student.Surname + " " + student.LastName,
                 PsychopedagogistId = report.PsychopedagogistId,
                 Activity = report.Activity,
-                Cause = report.Cause,
+                CauseId = report.CauseId,
                 CauseDescription = report.CauseDescription,
                 Resolution = report.Resolution,
                 Brief = report.Brief,
                 Text = report.Text,
                 Date = report.Date,
             })
+            .Join(_context.Causes, report => report.CauseId, cause => cause.Id,
+                (report, cause) => new DtoReportResponse
+                {
+                    Id = report.Id,
+                    StudentId = report.StudentId,
+                    Student = report.Student,
+                    PsychopedagogistId = report.PsychopedagogistId,
+                    Activity = report.Activity,
+                    Cause = cause.Name,
+                    CauseDescription = report.CauseDescription,
+                    Resolution = report.Resolution,
+                    Brief = report.Brief,
+                    Text = report.Text,
+                    Date = report.Date,
+                })
             .ToListAsync();
 
         return Ok(reports);

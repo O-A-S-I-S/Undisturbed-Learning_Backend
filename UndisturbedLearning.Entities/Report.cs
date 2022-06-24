@@ -4,13 +4,13 @@ namespace UndisturbedLearning.Entities;
 
 public class Report: EntityBase
 {
-   [StringLength(100)]
-   [Required]
-   public string Resolution { get; set; }
    [StringLength(200)]
    [Required]
-   public string Brief { get; set; }
+   public string Resolution { get; set; }
    [StringLength(500)]
+   [Required]
+   public string Brief { get; set; }
+   [StringLength(4000)]
    [Required]
    public string Text { get; set; }
    

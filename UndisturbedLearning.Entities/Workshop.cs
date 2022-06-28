@@ -10,16 +10,16 @@ public class Workshop: EntityBase
     public DateTime Start { get; set; }
     [Required]
     public DateTime End { get; set; }
-    [StringLength(50)]
+    [StringLength(60)]
     [Required] 
     public string Title { get; set; }
     [StringLength(200)]
     [Required]
     public string Brief { get; set; }
-    [StringLength(500)]
+    [StringLength(2000)]
     [Required]
     public string Text { get; set; }
-    [StringLength(200)]
+    [StringLength(1000)]
     public string Comment { get; set; }
     [DefaultValue(false)]
     [Required]

@@ -2,11 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UndisturbedLearning.Entities;
 
-public class Career: EntityBase
+public class Cause : EntityBase
 {
-    [StringLength(50)]
+    [StringLength(40)]
     [Required]
     public string Name { get; set; }
-    [StringLength(200)]
-    public string Description { get; set; }
 }

@@ -17,4 +17,5 @@ public class DtoAppointmentResponse
     public string Comment { get; set; }
     public bool Reminder { get; set; }
     public int Rating { get; set; }
+    public int ReportId { get; set; }
 }

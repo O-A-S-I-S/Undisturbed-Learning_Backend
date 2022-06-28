@@ -2,10 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UndisturbedLearning.Dto.Request;
 
-public class DtoProfession
+public class DtoCause
 {
     [StringLength(40)]
+    [Required]
     public string Name { get; set; }
-    [StringLength(200)]
-    public string Description { get; set; }
 }

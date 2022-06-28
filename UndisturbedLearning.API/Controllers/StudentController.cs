@@ -138,38 +138,41 @@ public class StudentController: ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Post(DtoStudent request)
+    public async Task<ActionResult> Post(List<DtoStudent> requests)
     {
-        var career = await _context.Careers.Where(c => c.Name == request.Career).FirstAsync();
-        if (career == null) return BadRequest("Invalid career name");
-        
-        var campus = await _context.Campuses.Where(c => c.Location == request.Campus).FirstAsync();
-        if (campus == null) return BadRequest("Invalid campus name");
-
-        var student = await _context.Students.Where(s => s.Code == request.Code).FirstOrDefaultAsync();
-
-        if (student != null) return BadRequest("Student already exists");
-        
-        var entity = new Student
+        foreach (DtoStudent request in requests)
         {
-            Code = request.Code,
-            Password = "",
-            Dni = request.Dni,
-            Surname = request.Surname,
-            LastName = request.LastName,
-            BirthDate = request.BirthDate.Date,
-            Email = request.Email,
-            Cellphone = request.Cellphone,
-            Telephone = request.Telephone,
-            Undergraduate = request.Undergraduate,
-            CareerId = career.Id,
-            CampusId = campus.Id
-        };
-
-        _context.Students.Add(entity);
-        await _context.SaveChangesAsync();
+            var career = await _context.Careers.Where(c => c.Name == request.Career).FirstAsync();
+            if (career == null) return BadRequest("Invalid career name");
         
-        HttpContext.Response.Headers.Add("location", $"/api/student/{entity.Id}");
+            var campus = await _context.Campuses.Where(c => c.Location == request.Campus).FirstAsync();
+            if (campus == null) return BadRequest("Invalid campus name");
+
+            var student = await _context.Students.Where(s => s.Code == request.Code).FirstOrDefaultAsync();
+
+            if (student != null) return BadRequest("Student already exists");
+        
+            var entity = new Student
+            {
+                Code = request.Code,
+                Password = "",
+                Dni = request.Dni,
+                Surname = request.Surname,
+                LastName = request.LastName,
+                BirthDate = request.BirthDate.Date,
+                Email = request.Email,
+                Cellphone = request.Cellphone,
+                Telephone = request.Telephone,
+                Undergraduate = request.Undergraduate,
+                CareerId = career.Id,
+                CampusId = campus.Id
+            };
+
+            _context.Students.Add(entity);
+            await _context.SaveChangesAsync();
+        
+            // HttpContext.Response.Headers.Add("location{entity.Id}", $"/api/student/{entity.Id}");
+        }
 
         return Ok();
     }

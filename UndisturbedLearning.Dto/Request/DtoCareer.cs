@@ -4,9 +4,9 @@ namespace UndisturbedLearning.Dto.Request;
 
 public class DtoCareer
 {
-    [StringLength(30)]
+    [StringLength(50)]
     [Required]
     public string Name { get; set; }
-    [StringLength(80)]
+    [StringLength(200)]
     public string Description { get; set; }
 }

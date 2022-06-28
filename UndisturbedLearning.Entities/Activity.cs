@@ -4,7 +4,7 @@ namespace UndisturbedLearning.Entities;
 
 public class Activity : EntityBase
 {
-    [StringLength(30)]
+    [StringLength(60)]
     [Required]
     public string Name { get; set; }
 }

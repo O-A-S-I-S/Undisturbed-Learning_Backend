@@ -11,26 +11,30 @@ public class Appointment: EntityBase
     public DateTime Start { get; set; }
     [Required]
     public DateTime End { get; set; }
-    [StringLength(40)]
-    [Required] 
-    public string Cause { get; set; }
-    [StringLength(140)]
+    [StringLength(400)]
     [Required] 
     public string CauseDescription { get; set; }
-    [StringLength(200)]
+    [StringLength(1000)]
     public string Comment { get; set; }
     [DefaultValue(true)]
     [Required] 
     public bool Virtual { get; set; }
     [DefaultValue(false)]
     [Required] 
-    public bool Reminder { get; set; }
+    public bool ReminderStudent { get; set; }
+    [DefaultValue(false)]
+    [Required] 
+    public bool ReminderPsychopedagogist { get; set; }
     [Range(0, 10)]
     public int Rating { get; set; }
     
     [Required] 
     public int ActivityId { get; set; }
     public Activity Activity { get; set; }
+    
+    [Required] 
+    public int CauseId { get; set; }
+    public Cause Cause { get; set; }
     
     [Required]
     public int PsychopedagogistId { get; set; }

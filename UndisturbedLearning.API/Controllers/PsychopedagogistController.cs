@@ -85,37 +85,41 @@ public class PsychopedagogistController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Post(DtoPsychopedagogist request)
+    public async Task<ActionResult> Post(List<DtoPsychopedagogist> requests)
     {
-        var profession = await _context.Professions.Where(p => p.Name == request.Profession).FirstAsync();
-        if (profession == null) return BadRequest("Invalid profession name");
-        
-        var campus = await _context.Campuses.Where(c => c.Location == request.Campus).FirstAsync();
-        if (campus == null) return BadRequest("Invalid campus name");
-
-        var psychopedagogist = await _context.Psychopedagogists.Where(p => p.Code == request.Code).FirstOrDefaultAsync();
-        if (psychopedagogist != null) return BadRequest("Psychopedagogist already exists");
-        
-        var entity = new Psychopedagogist
+        foreach (DtoPsychopedagogist request in requests)
         {
-            Code = request.Code,
-            Password = request.Password,
-            Dni = request.Dni,
-            Surname = request.Surname,
-            LastName = request.LastName,
-            BirthDate = request.BirthDate,
-            Email = request.Email,
-            Cellphone = request.Cellphone,
-            Telephone = request.Telephone,
-            IndividualAssistance = true,
-            CampusId = campus.Id,
-            ProfessionId = profession.Id,
-        };
+            var profession = await _context.Professions.Where(p => p.Name == request.Profession).FirstAsync();
+            if (profession == null) return BadRequest("Invalid profession name");
 
-        _context.Psychopedagogists.Add(entity);
-        await _context.SaveChangesAsync();
+            var campus = await _context.Campuses.Where(c => c.Location == request.Campus).FirstAsync();
+            if (campus == null) return BadRequest("Invalid campus name");
 
-        HttpContext.Response.Headers.Add("location", $"/api/psychopedagogist/{entity.Id}");
+            var psychopedagogist =
+                await _context.Psychopedagogists.Where(p => p.Code == request.Code).FirstOrDefaultAsync();
+            if (psychopedagogist != null) return BadRequest("Psychopedagogist already exists");
+
+            var entity = new Psychopedagogist
+            {
+                Code = request.Code,
+                Password = request.Password,
+                Dni = request.Dni,
+                Surname = request.Surname,
+                LastName = request.LastName,
+                BirthDate = request.BirthDate,
+                Email = request.Email,
+                Cellphone = request.Cellphone,
+                Telephone = request.Telephone,
+                IndividualAssistance = true,
+                CampusId = campus.Id,
+                ProfessionId = profession.Id,
+            };
+
+            _context.Psychopedagogists.Add(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        // HttpContext.Response.Headers.Add("location", $"/api/psychopedagogist/{entity.Id}");
 
         return Ok();
     }

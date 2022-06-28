@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UndisturbedLearning.DataAccess;
 
@@ -11,9 +12,10 @@ using UndisturbedLearning.DataAccess;
 namespace UndisturbedLearning.DataAccess.Migrations
 {
     [DbContext(typeof(UndisturbedLearningDbContext))]
-    partial class UndisturbedLearningDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220628152548_ChangedStringLengths")]
+    partial class ChangedStringLengths
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

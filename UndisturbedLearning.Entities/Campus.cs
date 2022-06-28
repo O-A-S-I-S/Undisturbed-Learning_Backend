@@ -4,7 +4,7 @@ namespace UndisturbedLearning.Entities;
 
 public class Campus: EntityBase
 {
-    [StringLength(10)]
+    [StringLength(20)]
     [Required]
     public string Location { get; set; }
 }

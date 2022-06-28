@@ -1,6 +1,10 @@
+using System.Collections;
+using System.Collections.ObjectModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.VisualBasic;
 using UndisturbedLearning.DataAccess;
 using UndisturbedLearning.Dto.Request;
 using UndisturbedLearning.Dto.Response;
@@ -20,6 +24,18 @@ public class AppointmentController : ControllerBase
         _context = context;
     }
 
+    private bool compareDateString(string a, string b, string sep, int[] format)
+    {
+        var date1 = a.Split(sep);
+        var date2 = b.Split(sep);
+        foreach (int index in format)
+        {
+            if (Int32.Parse(date1[format[index]]) > Int32.Parse(date2[format[index]])) return false;
+        }
+
+        return true;
+    }
+
     [HttpGet]
     public async Task<ActionResult<ICollection<Appointment>>> Get()
     {
@@ -28,10 +44,17 @@ public class AppointmentController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("student/{id:int}")]
-    public async Task<ActionResult<ICollection<Appointment>>> GetByStudentId(int id)
+    [HttpPost("filter")]
+    public async Task<ActionResult<ICollection<Appointment>>> GetCustom(DtoAppointmentFilter filter)
     {
-        ICollection<DtoAppointmentResponse> appointments = await _context.Appointments
+        if (filter.StudentId == null && filter.PsychopedagogistId == null) return BadRequest("No student nor psychopedagogist specified in request.");
+
+        ICollection<DtoAppointmentResponse> appointments = new Collection<DtoAppointmentResponse>();
+        
+        if (filter.StudentId != null)
+        { 
+            appointments = await _context.Appointments
+            .Where(a => a.StudentId == filter.StudentId)
             .Join(_context.Psychopedagogists, 
             appointment => appointment.PsychopedagogistId, 
             psychopedagogist => psychopedagogist.Id,
@@ -53,7 +76,6 @@ public class AppointmentController : ControllerBase
                 Reminder = appointment.ReminderStudent,
                 Rating = appointment.Rating,
             })
-            .Where(a => a.StudentId == id)
             .OrderByDescending(a => a.Start)
             .Join(_context.Activities, appointment => appointment.ActivityId, activity => activity.Id,
             (appointment, activity) => new 
@@ -91,94 +113,114 @@ public class AppointmentController : ControllerBase
                     Comment = appointment.Comment,
                     Reminder = appointment.Reminder,
                     Rating = appointment.Rating,
-                })
-            .ToListAsync();
-        
-        foreach (DtoAppointmentResponse appointment in appointments)
-        {
-            var report = await _context.Reports.Where(r => r.AppointmentId == appointment.Id).FirstAsync();
-        
-            if (report == null) appointment.ReportId = 0;
-            else appointment.ReportId = report.Id;
-        }
-        
-        return Ok(appointments);
-    }
-    
-    [HttpGet("psychopedagogist/{id:int}")]
-    public async Task<ActionResult<ICollection<Appointment>>> GetByPsychopedagogistId(int id)
-    {
-        ICollection<DtoAppointmentResponse> appointments = await _context.Appointments
-            .Join(_context.Students, 
-            appointment => appointment.PsychopedagogistId, 
-            student => student.Id,
-            (appointment, student) => new 
-            {
-                Id = appointment.Id,
-                StudentId = appointment.StudentId,
-                Student = student.Surname + " " +  student.LastName,
-                PsychopedagogistId = appointment.PsychopedagogistId,
-                ActivityId = appointment.ActivityId,
-                CauseId = appointment.CauseId,
-                CauseDescription = appointment.CauseDescription,
-                Virtual = appointment.Virtual,
-                Start = appointment.Start,
-                Date = appointment.Date,
-                StartTime = appointment.StartTime,
-                EndTime = appointment.EndTime,
-                Comment = appointment.Comment,
-                Reminder = appointment.ReminderPsychopedagogist,
-                Rating = appointment.Rating,
-            })
-            .Where(a => a.PsychopedagogistId == id)
-            .OrderByDescending(a => a.Start)
-            .Join(_context.Activities, appointment => appointment.ActivityId, 
-            activity => activity.Id,
-            (appointment, activity) => new
-            {
-                Id = appointment.Id,
-                StudentId = appointment.StudentId,
-                Student = appointment.Student,
-                PsychopedagogistId = appointment.PsychopedagogistId,
-                Activity = activity.Name,
-                CauseId = appointment.CauseId,
-                CauseDescription = appointment.CauseDescription,
-                Virtual = appointment.Virtual,
-                Date = appointment.Date,
-                StartTime = appointment.StartTime,
-                EndTime = appointment.EndTime,
-                Comment = appointment.Comment,
-                Reminder = appointment.Reminder,
-                Rating = appointment.Rating,
-            })
-            .Join(_context.Causes, appointment => appointment.CauseId, cause => cause.Id,
-                (appointment, cause) => new DtoAppointmentResponse
-                {
-                    Id = appointment.Id,
-                    StudentId = appointment.StudentId,
-                    Student = appointment.Student,
-                    PsychopedagogistId = appointment.PsychopedagogistId,
-                    Activity = appointment.Activity,
-                    Cause = cause.Name,
-                    CauseDescription = appointment.CauseDescription,
-                    Virtual = appointment.Virtual,
-                    Date = appointment.Date,
-                    StartTime = appointment.StartTime,
-                    EndTime = appointment.EndTime,
-                    Comment = appointment.Comment,
-                    Reminder = appointment.Reminder,
-                    Rating = appointment.Rating,
+                    ReportId = 0,
                 })
             .ToListAsync();
 
-        foreach (DtoAppointmentResponse appointment in appointments)
-        {
-            var report = await _context.Reports.Where(r => r.AppointmentId == appointment.Id).FirstAsync();
-        
-            if (report == null) appointment.ReportId = 0;
-            else appointment.ReportId = report.Id;
+            if (filter.PsychopedagogistId != null)
+                appointments = appointments.Where(a => a.PsychopedagogistId == filter.PsychopedagogistId).ToList();
         }
+        else if (filter.PsychopedagogistId != null)
+        {
+            appointments = await _context.Appointments
+                .Where(a => a.PsychopedagogistId == filter.PsychopedagogistId)
+                .Join(_context.Students,
+                    appointment => appointment.StudentId,
+                    student => student.Id,
+                    (appointment, student) => new
+                    {
+                        Id = appointment.Id,
+                        StudentId = appointment.StudentId,
+                        Student = student.Surname + " " + student.LastName,
+                        PsychopedagogistId = appointment.PsychopedagogistId,
+                        ActivityId = appointment.ActivityId,
+                        CauseId = appointment.CauseId,
+                        CauseDescription = appointment.CauseDescription,
+                        Virtual = appointment.Virtual,
+                        Start = appointment.Start,
+                        Date = appointment.Date,
+                        StartTime = appointment.StartTime,
+                        EndTime = appointment.EndTime,
+                        Comment = appointment.Comment,
+                        Reminder = appointment.ReminderPsychopedagogist,
+                        Rating = appointment.Rating,
+                    })
+                .OrderByDescending(a => a.Start)
+                .Join(_context.Activities, appointment => appointment.ActivityId,
+                    activity => activity.Id,
+                    (appointment, activity) => new
+                    {
+                        Id = appointment.Id,
+                        StudentId = appointment.StudentId,
+                        Student = appointment.Student,
+                        PsychopedagogistId = appointment.PsychopedagogistId,
+                        Activity = activity.Name,
+                        CauseId = appointment.CauseId,
+                        CauseDescription = appointment.CauseDescription,
+                        Virtual = appointment.Virtual,
+                        Date = appointment.Date,
+                        StartTime = appointment.StartTime,
+                        EndTime = appointment.EndTime,
+                        Comment = appointment.Comment,
+                        Reminder = appointment.Reminder,
+                        Rating = appointment.Rating,
+                    })
+                .Join(_context.Causes, appointment => appointment.CauseId, cause => cause.Id,
+                    (appointment, cause) => new DtoAppointmentResponse
+                    {
+                        Id = appointment.Id,
+                        StudentId = appointment.StudentId,
+                        Student = appointment.Student,
+                        PsychopedagogistId = appointment.PsychopedagogistId,
+                        Activity = appointment.Activity,
+                        Cause = cause.Name,
+                        CauseDescription = appointment.CauseDescription,
+                        Virtual = appointment.Virtual,
+                        Date = appointment.Date,
+                        StartTime = appointment.StartTime,
+                        EndTime = appointment.EndTime,
+                        Comment = appointment.Comment,
+                        Reminder = appointment.Reminder,
+                        Rating = appointment.Rating,
+                        ReportId = 0,
+                    })
+                .ToListAsync();
+        }
+
+        if (_context.Reports.ToList().Count() > 0)
+        {
+            foreach (DtoAppointmentResponse appointment in appointments)
+            {
+                var report = await _context.Reports.Where(r => r.AppointmentId == appointment.Id).FirstOrDefaultAsync();
         
+                if (report != null) appointment.ReportId = report.Id;
+            }
+        }
+
+        if (filter.Activity != null) appointments = appointments.Where(a => a.Activity == filter.Activity).ToList();
+        
+        if (filter.Cause != null) appointments = appointments.Where(a => a.Cause == filter.Cause).ToList();
+        
+        if (filter.Virtual != null) appointments = appointments.Where(a => a.Virtual == filter.Virtual).ToList();
+
+        if (filter.Report != null)
+        {
+            if (filter.Report ?? false) appointments = appointments.Where(a => a.ReportId > 0).ToList();
+            
+            else appointments = appointments.Where(a => a.ReportId == 0).ToList();
+        }
+
+        if (filter.Comment != null)
+        {
+            if (filter.Comment ?? false) appointments = appointments.Where(a => a.Comment.Length > 0).ToList();
+            
+            else appointments = appointments.Where(a => a.Comment != "").ToList();
+        }
+
+        if (filter.StartDate != null) appointments = appointments.Where(a => compareDateString(filter.StartDate, a.Date, "/", new int[] {2, 0, 1})).ToList();
+
+        if (filter.EndDate != null) appointments = appointments.Where(a => compareDateString(a.Date, filter.EndDate, "/", new int[] {2, 0, 1})).ToList();
+
         return Ok(appointments);
     }
 
@@ -227,40 +269,25 @@ public class AppointmentController : ControllerBase
         return Ok();
     }
     
-    [HttpPut("comment/{id:int}")]
-    public async Task<ActionResult> Put(int id, string comment)
+    [HttpPut("update/{id:int}")]
+    public async Task<ActionResult> Put(int id, DtoAppointmentUpdate request)
     {
         var entity = await _context.Appointments.FindAsync(id);
 
-        if (entity == null) return NotFound();
+        if (entity == null) return BadRequest("Non-existent appointment id.");
 
-        entity.Comment = comment;
+        if (request.Comment != null) entity.Comment = request.Comment;
+        if (request.ReminderStudent != null) entity.ReminderStudent = request.ReminderStudent ?? false;
+        if (request.ReminderPsychopedagogist != null)
+            entity.ReminderPsychopedagogist = request.ReminderPsychopedagogist ?? false;
+        if (request.Rating != null) entity.Rating = request.Rating ?? 0;
 
         _context.Entry(entity).State = EntityState.Modified;
         await _context.SaveChangesAsync();
 
         return Ok(new
         {
-            Id = entity.Id,
-            Comment = entity.Comment,
-        });
-    }
-    
-    [HttpPut("rating/{id:int}")]
-    public async Task<ActionResult> Put(int id, int rating)
-    {
-        var entity = await _context.Appointments.FindAsync(id);
-
-        if (entity == null) return NotFound();
-
-        entity.Rating = rating;
-
-        _context.Entry(entity).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
-
-        return Ok(new
-        {
-            Id = id
+            Id = entity.Id
         });
     }
     

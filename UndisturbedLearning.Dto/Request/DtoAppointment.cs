@@ -16,7 +16,7 @@ public class DtoAppointment
     [StringLength(40)]
     [Required] 
     public string Cause { get; set; }
-    [StringLength(140)]
+    [StringLength(400)]
     [Required] 
     public string CauseDescription { get; set; }
     [DefaultValue(true)]

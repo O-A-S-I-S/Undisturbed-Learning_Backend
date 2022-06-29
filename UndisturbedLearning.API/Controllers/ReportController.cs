@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UndisturbedLearning.DataAccess;
@@ -16,6 +17,18 @@ public class ReportController:ControllerBase
     public ReportController(UndisturbedLearningDbContext context)
     {
         _context = context;
+    }
+    
+    private bool compareDateString(string a, string b, string sep, int[] format)
+    {
+        var date1 = a.Split(sep);
+        var date2 = b.Split(sep);
+        foreach (int index in format)
+        {
+            if (Int32.Parse(date1[format[index]]) > Int32.Parse(date2[format[index]])) return false;
+        }
+
+        return true;
     }
 
     [HttpGet]
@@ -53,81 +66,12 @@ public class ReportController:ControllerBase
 
         return Ok(report);
     }
-
-    [HttpGet("student/{id:int}")]
-    public async Task<ActionResult<ICollection<Report>>> GetByStudentId(int id)
-    {
-        ICollection<DtoReportResponse> reports = await _context.Reports.Join(_context.Appointments,
-            report => report.AppointmentId,
-            appointment => appointment.Id, (report, appointment) => new
-            {
-                Id = report.Id,
-                StudentId = appointment.StudentId,
-                PsychopedagogistId = appointment.PsychopedagogistId,
-                ActivityId = appointment.ActivityId,
-                CauseId = appointment.CauseId,
-                CauseDescription = appointment.CauseDescription,
-                Resolution = report.Resolution,
-                Brief = report.Brief,
-                Text = report.Text,
-                Start = appointment.Start,
-                Date = appointment.Date,
-            })
-            .Where(r => r.StudentId == id)
-            .OrderByDescending(r => r.Start)
-            .Join(_context.Activities, report => report.ActivityId, activity => activity.Id,
-            (report, activity) => new 
-            {
-                Id = report.Id,
-                StudentId = report.StudentId,
-                PsychopedagogistId = report.PsychopedagogistId,
-                Activity = activity.Name,
-                CauseId = report.CauseId,
-                CauseDescription = report.CauseDescription,
-                Resolution = report.Resolution,
-                Brief = report.Brief,
-                Text = report.Text,
-                Date = report.Date,
-                
-            })
-            .Join(_context.Psychopedagogists, report => report.PsychopedagogistId, psychopedagogist => psychopedagogist.Id,
-            (report, psychopedagogist) => new 
-            {
-                Id = report.Id,
-                StudentId = report.StudentId,
-                PsychopedagogistId = report.PsychopedagogistId,
-                Psychopedagogist = psychopedagogist.Surname + " " + psychopedagogist.LastName,
-                Activity = report.Activity,
-                CauseId = report.CauseId,
-                CauseDescription = report.CauseDescription,
-                Resolution = report.Resolution,
-                Brief = report.Brief,
-                Text = report.Text,
-                Date = report.Date,
-            })
-            .Join(_context.Causes, report => report.CauseId, cause => cause.Id,
-                (report, cause) => new DtoReportResponse
-                {
-                    Id = report.Id,
-                    StudentId = report.StudentId,
-                    PsychopedagogistId = report.PsychopedagogistId,
-                    Psychopedagogist = report.Psychopedagogist,
-                    Activity = report.Activity,
-                    Cause = cause.Name,
-                    CauseDescription = report.CauseDescription,
-                    Resolution = report.Resolution,
-                    Brief = report.Brief,
-                    Text = report.Text,
-                    Date = report.Date,
-                })
-            .ToListAsync();
-
-        return Ok(reports);
-    }
     
-    [HttpGet("psychopedagogist/{id:int}")]
-    public async Task<ActionResult<ICollection<Report>>> GetByPsychopedagogistId(int id)
+    [HttpPost("filter")]
+    public async Task<ActionResult<ICollection<Report>>> GetCustom(DtoReportFilter filter)
     {
+        if (filter.StudentId == null) return BadRequest("No student in request.");
+
         ICollection<DtoReportResponse> reports = await _context.Reports.Join(_context.Appointments, report => report.AppointmentId,
             appointment => appointment.Id, (report, appointment) => new
             {
@@ -143,7 +87,7 @@ public class ReportController:ControllerBase
                 Start = appointment.Start,
                 Date = appointment.Date,
             })
-            .Where(r => r.PsychopedagogistId == id)
+            .Where(r => r.StudentId == filter.StudentId)
             .OrderByDescending(r => r.Start)
             .Join(_context.Activities, report => report.ActivityId, activity => activity.Id,
             (report, activity) => new 
@@ -175,6 +119,22 @@ public class ReportController:ControllerBase
                 Text = report.Text,
                 Date = report.Date,
             })
+            .Join(_context.Psychopedagogists, report => report.PsychopedagogistId, psychopedagogist => psychopedagogist.Id,
+                (report, psychopedagogist) => new
+                {
+                    Id = report.Id,
+                    StudentId = report.StudentId,
+                    Student = report.Student,
+                    PsychopedagogistId = report.PsychopedagogistId,
+                    Psychopedagogist = psychopedagogist.Surname + " " + psychopedagogist.LastName,
+                    Activity = report.Activity,
+                    CauseId = report.CauseId,
+                    CauseDescription = report.CauseDescription,
+                    Resolution = report.Resolution,
+                    Brief = report.Brief,
+                    Text = report.Text,
+                    Date = report.Date,
+                })
             .Join(_context.Causes, report => report.CauseId, cause => cause.Id,
                 (report, cause) => new DtoReportResponse
                 {
@@ -182,6 +142,7 @@ public class ReportController:ControllerBase
                     StudentId = report.StudentId,
                     Student = report.Student,
                     PsychopedagogistId = report.PsychopedagogistId,
+                    Psychopedagogist = report.Psychopedagogist,
                     Activity = report.Activity,
                     Cause = cause.Name,
                     CauseDescription = report.CauseDescription,
@@ -191,6 +152,12 @@ public class ReportController:ControllerBase
                     Date = report.Date,
                 })
             .ToListAsync();
+        
+        if (filter.PsychopedagogistId != null) reports = reports.Where(a => a.PsychopedagogistId == filter.PsychopedagogistId).ToList();
+        
+        if (filter.StartDate != null) reports = reports.Where(a => compareDateString(filter.StartDate, a.Date, "/", new int[] {2, 0, 1})).ToList();
+
+        if (filter.EndDate != null) reports = reports.Where(a => compareDateString(a.Date, filter.EndDate, "/", new int[] {2, 0, 1})).ToList();
 
         return Ok(reports);
     }

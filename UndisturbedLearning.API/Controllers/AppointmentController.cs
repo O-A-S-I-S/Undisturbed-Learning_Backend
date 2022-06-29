@@ -117,8 +117,7 @@ public class AppointmentController : ControllerBase
                 })
             .ToListAsync();
 
-            if (filter.PsychopedagogistId != null)
-                appointments = appointments.Where(a => a.PsychopedagogistId == filter.PsychopedagogistId).ToList();
+            if (filter.PsychopedagogistId != null) appointments = appointments.Where(a => a.PsychopedagogistId == filter.PsychopedagogistId).ToList();
         }
         else if (filter.PsychopedagogistId != null)
         {
@@ -214,7 +213,7 @@ public class AppointmentController : ControllerBase
         {
             if (filter.Comment ?? false) appointments = appointments.Where(a => a.Comment.Length > 0).ToList();
             
-            else appointments = appointments.Where(a => a.Comment != "").ToList();
+            else appointments = appointments.Where(a => a.Comment.Length == 0).ToList();
         }
 
         if (filter.StartDate != null) appointments = appointments.Where(a => compareDateString(filter.StartDate, a.Date, "/", new int[] {2, 0, 1})).ToList();

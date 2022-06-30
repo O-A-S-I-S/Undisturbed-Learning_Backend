@@ -23,7 +23,16 @@ public class AppointmentController : ControllerBase
     {
         _context = context;
     }
-
+    private static DtoAppoPsychoTimeResponse AppointmentToTimeFreeResponse(Appointment appointment) => new DtoAppoPsychoTimeResponse
+    {
+       Date=appointment.Date,
+       StartTime=appointment.StartTime
+    };
+    private static DtoAppoTimeResponse AppoTimeOnly(DtoAppoPsychoTimeResponse appointment) => new DtoAppoTimeResponse
+    {
+        
+        StartTime = appointment.StartTime
+    };
     private bool compareDateString(string a, string b, string sep, int[] format)
     {
         var date1 = a.Split(sep);
@@ -31,6 +40,17 @@ public class AppointmentController : ControllerBase
         foreach (int index in format)
         {
             if (Int32.Parse(date1[format[index]]) > Int32.Parse(date2[format[index]])) return false;
+        }
+
+        return true;
+    }
+    private bool compareDateStringV2(string a, string b, string sep, int[] format)
+    {
+        var date1 = a.Split(sep);
+        var date2 = b.Split('-');
+        foreach (int index in format)
+        {
+            if (Int32.Parse(date1[format[index]]) != Int32.Parse(date2[format[index]])) return false;
         }
 
         return true;
@@ -304,5 +324,28 @@ public class AppointmentController : ControllerBase
         _context.Entry(entity).State = EntityState.Deleted;
         await _context.SaveChangesAsync();
         return Ok(id);
+    }
+    [HttpGet]
+    [Route("psychopedagogist/{id}/{date}")]
+    public async Task<ActionResult<ICollection<DtoAppointmentResponse>>> GetAppointmentsByPsychopedagogistIdAndDate(int id,string date)
+    {
+        var entity = await _context.Psychopedagogists.FindAsync(id);
+        if (entity == null) return BadRequest("The psychopedagogist doesn't exist.");
+        var appointments = await _context.Appointments.Where(a => a.PsychopedagogistId == id).Select(a => AppointmentToTimeFreeResponse(a)).ToListAsync();
+        if (appointments == null) return BadRequest("The psychopedagogist doesn't have dates.");
+        var times = appointments.Where(a => compareDateStringV2(a.Date, date, "/", new int[] { 2, 0, 1 })).Select(a => AppoTimeOnly(a)).ToList();
+        //var appointments =  _context.Appointments.Where(a=> compareDateStringV2(a.Date, date, new int[] { 2, 0, 1 })).Select(a => AppointmentToTimeFreeResponse(a)).ToList();
+
+        return Ok(times);
+    }
+    [HttpGet]
+    [Route("psychopedagogist/{id}")]
+    public async Task<ActionResult<ICollection<DtoAppointmentResponse>>> GetAppointmentsByPsychopedagogistId(int id)
+    {
+        var entity = await _context.Psychopedagogists.FindAsync(id);
+        if (entity == null) return BadRequest("The psychopedagogist doesn't exist.");
+        var appointments = await _context.Appointments.Where(a => a.PsychopedagogistId == id).Select(a=>AppointmentToTimeFreeResponse(a)).ToListAsync();
+
+        return Ok(appointments);
     }
 }

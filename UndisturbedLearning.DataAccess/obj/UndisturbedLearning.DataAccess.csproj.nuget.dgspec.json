@@ -1,33 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.DataAccess/UndisturbedLearning.DataAccess.csproj": {}
+    "D:\\Universidad\\Ciclo2022-1\\IngenieriadeSoftware\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.DataAccess\\UndisturbedLearning.DataAccess.csproj": {}
   },
   "projects": {
-    "/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.DataAccess/UndisturbedLearning.DataAccess.csproj": {
+    "D:\\Universidad\\Ciclo2022-1\\IngenieriadeSoftware\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.DataAccess\\UndisturbedLearning.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.DataAccess/UndisturbedLearning.DataAccess.csproj",
+        "projectUniqueName": "D:\\Universidad\\Ciclo2022-1\\IngenieriadeSoftware\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.DataAccess\\UndisturbedLearning.DataAccess.csproj",
         "projectName": "UndisturbedLearning.DataAccess",
-        "projectPath": "/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.DataAccess/UndisturbedLearning.DataAccess.csproj",
-        "packagesPath": "/home/z3r0/.nuget/packages/",
-        "outputPath": "/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.DataAccess/obj/",
+        "projectPath": "D:\\Universidad\\Ciclo2022-1\\IngenieriadeSoftware\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.DataAccess\\UndisturbedLearning.DataAccess.csproj",
+        "packagesPath": "C:\\Users\\luisa\\.nuget\\packages\\",
+        "outputPath": "D:\\Universidad\\Ciclo2022-1\\IngenieriadeSoftware\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.DataAccess\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/z3r0/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\luisa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/UndisturbedLearning.Entities.csproj": {
-                "projectPath": "/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/UndisturbedLearning.Entities.csproj"
+              "D:\\Universidad\\Ciclo2022-1\\IngenieriadeSoftware\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj": {
+                "projectPath": "D:\\Universidad\\Ciclo2022-1\\IngenieriadeSoftware\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj"
               }
             }
           }
@@ -72,26 +74,28 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.301/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/UndisturbedLearning.Entities.csproj": {
+    "D:\\Universidad\\Ciclo2022-1\\IngenieriadeSoftware\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/UndisturbedLearning.Entities.csproj",
+        "projectUniqueName": "D:\\Universidad\\Ciclo2022-1\\IngenieriadeSoftware\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj",
         "projectName": "UndisturbedLearning.Entities",
-        "projectPath": "/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/UndisturbedLearning.Entities.csproj",
-        "packagesPath": "/home/z3r0/.nuget/packages/",
-        "outputPath": "/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/obj/",
+        "projectPath": "D:\\Universidad\\Ciclo2022-1\\IngenieriadeSoftware\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj",
+        "packagesPath": "C:\\Users\\luisa\\.nuget\\packages\\",
+        "outputPath": "D:\\Universidad\\Ciclo2022-1\\IngenieriadeSoftware\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/z3r0/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\luisa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -124,7 +128,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.301/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

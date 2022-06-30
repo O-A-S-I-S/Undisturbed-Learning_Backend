@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xx2kyIdkb5wW/AVDxs6pJE6kUYoB2XcmLq5edxZB184pw4wcw1C1xWWjKCuetulniBEh/Rbmw399cZ1xFcsI3A==",
+  "dgSpecHash": "hBStDvYYJV63Frdrdxjyopn8ls8Fw8E6EUdR8ocNiUIyNmU0Ofe1vopdLCv4+ajzznRVA7rnM8ZMI/qKtdN74A==",
   "success": true,
-  "projectFilePath": "/home/z3r0/RiderProjects/Undisturbed_Learning-Api/UndisturbedLearning.Entities/UndisturbedLearning.Entities.csproj",
+  "projectFilePath": "D:\\Universidad\\Ciclo2022-1\\IngenieriadeSoftware\\ClonBack\\Undisturbed_Learning-Backend\\UndisturbedLearning.Entities\\UndisturbedLearning.Entities.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

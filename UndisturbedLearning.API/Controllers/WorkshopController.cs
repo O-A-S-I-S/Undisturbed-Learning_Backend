@@ -55,6 +55,7 @@ public class WorkshopController : ControllerBase
             Brief = request.Brief,
             Text = request.Text,
             PsychopedagogistId = request.PsychopedagogistId,
+            Comment=""
         };
 
 
